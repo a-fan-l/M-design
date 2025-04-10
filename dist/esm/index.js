@@ -1,12 +1,11 @@
-import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
-import { SvgIcon, Box, styled, Popover, IconButton, Typography, useTheme, useMediaQuery } from '@mui/material';
+import { jsx } from 'react/jsx-runtime';
 import * as React from 'react';
-import { memo, useMemo, useState, useRef, useCallback } from 'react';
-import { createSvgIcon } from '@mui/material/utils';
+import { memo, useMemo } from 'react';
+import { SvgIcon, Typography, useTheme, useMediaQuery } from '@mui/material';
 import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
 import { create } from 'zustand';
-import { produce, freeze } from 'immer';
+import { produce } from 'immer';
 
 var _rect$3, _rect2$1, _path$7, _path2$6, _path3$5, _path4$3, _g$9, _path5$3, _path6$1, _path7$1, _path8$1, _g2$3, _defs$9;
 function _extends$b() { return _extends$b = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends$b.apply(null, arguments); }
@@ -1036,7 +1035,7 @@ const icons = {
     ...icons$1,
 };
 
-const Index$e = ({ name, className, component, sx, ...props }) => {
+const Index$1 = ({ name, className, component, sx, ...props }) => {
     const c = useMemo(() => {
         if (component) {
             return { component: component };
@@ -1059,165 +1058,9 @@ const Index$e = ({ name, className, component, sx, ...props }) => {
         }, ...p }));
 };
 
-const Index$d = ({ containerprops, ...props }) => {
-    return (jsx(Box, { ...containerprops, className: `header-logo ${containerprops?.className}`, children: containerprops?.children ?? (jsx(Index$e, { ...props, className: `header-logo-svg ${props.className}` })) }));
-};
-
-const Container$4 = styled(Box)(() => ({
-    width: '100%',
-    display: 'flex',
-    alignContent: 'center',
-    alignItems: 'center',
-    alignSelf: 'center',
-    boxSizing: 'border-box',
-}));
-const Content = styled(Box)(() => ({
-    width: '100%',
-    display: 'flex',
-    alignContent: 'center',
-    alignItems: 'center',
-    alignSelf: 'center',
-    boxSizing: 'border-box',
-}));
-const Index$c = ({ children, islogo, logo, className, ...props }) => {
-    return (jsx(Container$4, { className: "header-root", children: jsxs(Content, { className: `header-content ${className}`, ...props, children: [islogo && jsx(Index$d, { ...logo }), children ?? null] }) }));
-};
-
-styled(Box)(() => ({
-    position: 'absolute',
-    zIndex: 9999,
-    top: '100%',
-}));
-const Index$b = ({ className, children, slotProps, ...props }) => (jsx(Popover, { disablePortal: true, slotProps: {
-        ...slotProps,
-        paper: {
-            className: `header-item-modal ${className}`,
-            ...slotProps?.paper,
-        },
-    }, ...props, children: children ?? null }));
-
-const Container$3 = styled(Box)(() => ({
-    display: 'flex',
-    alignContent: 'center',
-    alignItems: 'center',
-    alignSelf: 'center',
-    boxSizing: 'border-box',
-    position: 'relative',
-}));
-const Index$a = ({ className, children, ...props }) => (jsx(Container$3, { className: `nvigation header-nvigation-root ${className}`, ...props, children: children ?? null }));
-
-const Index$9 = ({ children, className }) => {
-    return jsx("ul", { className: `header-ul header-menu-ul ${className}`, children: children ?? null });
-};
-
-var CloseIcon = createSvgIcon(/*#__PURE__*/jsx("path", {
-  d: "M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
-}), 'Close');
-
-var DehazeIcon = createSvgIcon(/*#__PURE__*/jsx("path", {
-  d: "M2 15.5v2h20v-2zm0-5v2h20v-2zm0-5v2h20v-2z"
-}), 'Dehaze');
-
-const Index$8 = ({ children, icon, className, open, ...props }) => {
-    return (jsxs(Box, { className: `header-menu-button-root ${className}`, children: [jsx(IconButton, { sx: { cursor: 'pointer' }, ...props, children: icon ? (icon) : open ? (jsx(CloseIcon, { className: "menu-switch menu-close" })) : (jsx(DehazeIcon, { className: "menu-switch menu-open" })) }), children ?? null] }));
-};
-
-const Container$2 = styled(Box)(() => ({
-    position: 'absolute',
-    zIndex: 9999,
-    top: '100%',
-}));
-const Index$7 = ({ className, children, ...props }) => (jsx(Container$2, { className: `header-modal header-menu-modal ${className}`, ...props, children: children ?? null }));
-
-const Index$6 = ({ ...props }) => {
+const Index = ({ ...props }) => {
     return jsx(Typography, { fontSize: 16, ...props });
 };
-
-const Index$5 = ({ data, current, isprefix, issuffix, className, mode = 'light', suffix, children, onClick, }) => {
-    return (jsxs("li", { onClick: onClick, className: `header-li header-menu-li ${className} ${current?.id === data.id ? 'active' : 'idel'}`, children: [isprefix && data.isicon && data?.icones && (jsx(Box, { className: "li-prefix-root", children: data.icones[mode] })), children ?? (jsx(Index$6, { component: 'span', className: "li-text ", children: data.text })), issuffix && suffix && jsx(Box, { className: "li-suffix-root", children: suffix })] }));
-};
-
-const Container$1 = styled(Box)(() => ({
-    display: 'flex',
-    alignContent: 'center',
-    alignItems: 'center',
-    alignSelf: 'center',
-    boxSizing: 'border-box',
-    position: 'relative',
-    '& .header-tools-modal': {
-        position: 'absolute',
-        zIndex: 9999,
-        top: '100%',
-    },
-    '& .tools-ul-li': {
-        width: '100%',
-        display: 'flex',
-        alignContent: 'center',
-        alignItems: 'center',
-        alignSelf: 'center',
-        boxSizing: 'border-box',
-        position: 'relative',
-        cursor: 'pointer',
-        padding: '0 10px',
-    },
-}));
-const Index$4 = ({ className, children, ...props }) => (jsx(Container$1, { className: `header-tools-item ${className}`, ...props, children: children ?? null }));
-
-const Index$3 = ({ data, current, mode = 'light', onClick }) => {
-    const handleClick = (e) => {
-        const target = e.target;
-        const li = target.closest('li');
-        if (!li)
-            return;
-        const value = li.getAttribute('data-value');
-        if (!value)
-            return;
-        const res = data.find(item => item.value === value);
-        if (res && onClick) {
-            onClick(res);
-        }
-    };
-    return (jsx("ul", { className: "header-ul tools-ul language-ul-root", onClick: handleClick, children: data.map(item => {
-            return (jsxs("li", { className: `header-li tools-li language-li-root ${current?.id === item?.id ? 'active' : 'init'}`, "data-value": item.value, children: [item?.islogo && (jsx(Fragment, { children: item?.icon ? ((item?.[mode] ?? null)) : item?.[mode] ? (jsx(Index$e, { name: item?.[mode], className: "li-logo-left" })) : null })), jsx(Index$6, { className: "li-text", children: item.text })] }, item.id));
-        }) }));
-};
-
-const Index$2 = ({ data, current, order = 4, children, mode = 'light', buttonprops, modalprops, onChange, }) => {
-    const [open, setOpen] = useState(false);
-    const ref = useRef(null);
-    const handleshow = () => {
-        setOpen(true);
-    };
-    const handleclose = () => {
-        setOpen(false);
-    };
-    const logo = useMemo(() => {
-        if (current?.icon?.[mode]) {
-            return current.icon[mode];
-        }
-        return null;
-    }, [current, mode]);
-    return (jsxs(Index$4, { className: "header-tool-item  header-tool-language language-root", order: order, children: [jsx(IconButton, { onClick: handleshow, ref: ref, ...buttonprops, className: `tool-btn language-btn ${buttonprops?.className}`, children: current?.islogo && (jsx(Fragment, { children: current.icon ? (logo) : current?.[mode] ? (jsx(Index$e, { name: current?.[mode], className: "tool-logo" })) : null })) }), children ?? (jsx(Index$b, { open: open, keepMounted: true, anchorEl: ref.current, onClose: handleclose, ...modalprops, children: jsx(Index$3, { data: data, current: current, mode: mode, onClick: onChange }) }))] }));
-};
-const MLanguage = Index$2;
-MLanguage.Nav = Index$3;
-
-const Index$1 = ({ mode = 'light', order, svgprops, className, sx, ...props }) => {
-    return (jsx(IconButton, { ...props, className: `header-tool-item  header-tool-mode mode-root ${className}`, sx: {
-            order: order,
-            ...sx,
-        }, children: jsx(Index$e, { name: mode === 'dark' ? 'mode_dark' : 'mode_light', mode: mode, ...svgprops }) }));
-};
-
-const Container = styled(Box)(() => ({
-    display: 'flex',
-    alignContent: 'center',
-    alignItems: 'center',
-    alignSelf: 'center',
-    boxSizing: 'border-box',
-    position: 'relative',
-}));
-const Index = ({ className, children, ...props }) => (jsx(Container, { className: `tool tool-root ${className}`, ...props, children: children ?? null }));
 
 const formatday = () => { };
 
@@ -1458,20 +1301,5 @@ const useMode = () => {
     };
 };
 
-function useImmer(initialValue) {
-    const [value, updateValue] = useState(() => freeze(typeof initialValue === 'function' ? initialValue() : initialValue, true));
-    return [
-        value,
-        useCallback((updater) => {
-            if (typeof updater === 'function') {
-                updateValue(produce(updater));
-            }
-            else {
-                updateValue(freeze(updater));
-            }
-        }, []),
-    ];
-}
-
-export { Index$c as Header, Index$b as HeaderPopover, MLanguage, Index$1 as MMode, Index$8 as MenuButton, Index$5 as MenuLi, Index$7 as MenuModal, Index$9 as MenuUl, Index$a as Navigation, Index$e as SvgIcon, Index as Tool, Index$6 as Typography, clearStorage, formatday, formatmoney, getItem, getStorage, ispassword, removeStorage, setItem, setStorage, useBreakpoints, useImmer, useLanguage, useMode };
+export { Index$1 as SvgIcon, Index as Typography, clearStorage, formatday, formatmoney, getItem, getStorage, ispassword, removeStorage, setItem, setStorage, useBreakpoints, useLanguage, useMode };
 //# sourceMappingURL=index.js.map

@@ -15,10 +15,6 @@
     "dist",
     "README.md"
   ],
-  "engines": {
-    "node": ">=16.0.0",
-    "pnpm": ">=8.0.0"
-  },
   "peerDependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
@@ -33,20 +29,20 @@
     "typescript"
   ],
   "scripts": {
-    "storybook": "storybook dev -p 6006",
+    "storybook": "storybook dev -p 8099",
     "build-storybook": "storybook build",
-    "generate-stories": "NODE_OPTIONS='--loader ts-node/esm --experimental-specifier-resolution=node' ts-node -r tsconfig-paths/register scripts/generate-stories.ts",
+    "generate-stories": "NODE_OPTIONS='--loader ts-node/esm' ts-node --esm scripts/generate-stories.ts",
     "build:dev": "rollup -c config/rollup.config.dev.cjs",
     "build:prod": "rollup -c config/rollup.config.prod.cjs",
     "clean": "rm -rf dist",
     "lint": "eslint . --ext .ts,.tsx",
     "lint:fix": "eslint . --ext .ts,.tsx --fix",
     "prebuild": "npm run clean",
-    "prepublishOnly": "npm run build:prod",
+    "yalc:build": "yarn build && yalc publish",
+    "yalc:push": "yarn build && yalc push",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage",
-    "dev": "npm run build:dev -- --watch"
+    "test:coverage": "jest --coverage"
   },
   "author": "",
   "license": "ISC",
@@ -124,5 +120,8 @@
     "strip-ansi": "6.0.1",
     "string-width": "4.2.2",
     "wrap-ansi": "7.0.0"
+  },
+  "dependencies": {
+    "yalc": "^1.0.0-pre.53"
   }
 }

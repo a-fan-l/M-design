@@ -12,7 +12,7 @@ export interface LanguageBaseData {
     text?: string;
     desc?: string;
     value: string;
-    islogo?: boolean;
+    isLogo?: boolean;
     dark?: LanguageNameType;
     light?: LanguageNameType;
 }

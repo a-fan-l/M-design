@@ -1,9 +1,8 @@
 'use strict';
 
 var jsxRuntime = require('react/jsx-runtime');
-var material = require('@mui/material');
 var React = require('react');
-var utils = require('@mui/material/utils');
+var material = require('@mui/material');
 var dayjs = require('dayjs');
 var reactI18next = require('react-i18next');
 var zustand = require('zustand');
@@ -1056,7 +1055,7 @@ const icons = {
     ...icons$1,
 };
 
-const Index$e = ({ name, className, component, sx, ...props }) => {
+const Index$1 = ({ name, className, component, sx, ...props }) => {
     const c = React.useMemo(() => {
         if (component) {
             return { component: component };
@@ -1079,165 +1078,9 @@ const Index$e = ({ name, className, component, sx, ...props }) => {
         }, ...p }));
 };
 
-const Index$d = ({ containerprops, ...props }) => {
-    return (jsxRuntime.jsx(material.Box, { ...containerprops, className: `header-logo ${containerprops?.className}`, children: containerprops?.children ?? (jsxRuntime.jsx(Index$e, { ...props, className: `header-logo-svg ${props.className}` })) }));
-};
-
-const Container$4 = material.styled(material.Box)(() => ({
-    width: '100%',
-    display: 'flex',
-    alignContent: 'center',
-    alignItems: 'center',
-    alignSelf: 'center',
-    boxSizing: 'border-box',
-}));
-const Content = material.styled(material.Box)(() => ({
-    width: '100%',
-    display: 'flex',
-    alignContent: 'center',
-    alignItems: 'center',
-    alignSelf: 'center',
-    boxSizing: 'border-box',
-}));
-const Index$c = ({ children, islogo, logo, className, ...props }) => {
-    return (jsxRuntime.jsx(Container$4, { className: "header-root", children: jsxRuntime.jsxs(Content, { className: `header-content ${className}`, ...props, children: [islogo && jsxRuntime.jsx(Index$d, { ...logo }), children ?? null] }) }));
-};
-
-material.styled(material.Box)(() => ({
-    position: 'absolute',
-    zIndex: 9999,
-    top: '100%',
-}));
-const Index$b = ({ className, children, slotProps, ...props }) => (jsxRuntime.jsx(material.Popover, { disablePortal: true, slotProps: {
-        ...slotProps,
-        paper: {
-            className: `header-item-modal ${className}`,
-            ...slotProps?.paper,
-        },
-    }, ...props, children: children ?? null }));
-
-const Container$3 = material.styled(material.Box)(() => ({
-    display: 'flex',
-    alignContent: 'center',
-    alignItems: 'center',
-    alignSelf: 'center',
-    boxSizing: 'border-box',
-    position: 'relative',
-}));
-const Index$a = ({ className, children, ...props }) => (jsxRuntime.jsx(Container$3, { className: `nvigation header-nvigation-root ${className}`, ...props, children: children ?? null }));
-
-const Index$9 = ({ children, className }) => {
-    return jsxRuntime.jsx("ul", { className: `header-ul header-menu-ul ${className}`, children: children ?? null });
-};
-
-var CloseIcon = utils.createSvgIcon(/*#__PURE__*/jsxRuntime.jsx("path", {
-  d: "M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
-}), 'Close');
-
-var DehazeIcon = utils.createSvgIcon(/*#__PURE__*/jsxRuntime.jsx("path", {
-  d: "M2 15.5v2h20v-2zm0-5v2h20v-2zm0-5v2h20v-2z"
-}), 'Dehaze');
-
-const Index$8 = ({ children, icon, className, open, ...props }) => {
-    return (jsxRuntime.jsxs(material.Box, { className: `header-menu-button-root ${className}`, children: [jsxRuntime.jsx(material.IconButton, { sx: { cursor: 'pointer' }, ...props, children: icon ? (icon) : open ? (jsxRuntime.jsx(CloseIcon, { className: "menu-switch menu-close" })) : (jsxRuntime.jsx(DehazeIcon, { className: "menu-switch menu-open" })) }), children ?? null] }));
-};
-
-const Container$2 = material.styled(material.Box)(() => ({
-    position: 'absolute',
-    zIndex: 9999,
-    top: '100%',
-}));
-const Index$7 = ({ className, children, ...props }) => (jsxRuntime.jsx(Container$2, { className: `header-modal header-menu-modal ${className}`, ...props, children: children ?? null }));
-
-const Index$6 = ({ ...props }) => {
+const Index = ({ ...props }) => {
     return jsxRuntime.jsx(material.Typography, { fontSize: 16, ...props });
 };
-
-const Index$5 = ({ data, current, isprefix, issuffix, className, mode = 'light', suffix, children, onClick, }) => {
-    return (jsxRuntime.jsxs("li", { onClick: onClick, className: `header-li header-menu-li ${className} ${current?.id === data.id ? 'active' : 'idel'}`, children: [isprefix && data.isicon && data?.icones && (jsxRuntime.jsx(material.Box, { className: "li-prefix-root", children: data.icones[mode] })), children ?? (jsxRuntime.jsx(Index$6, { component: 'span', className: "li-text ", children: data.text })), issuffix && suffix && jsxRuntime.jsx(material.Box, { className: "li-suffix-root", children: suffix })] }));
-};
-
-const Container$1 = material.styled(material.Box)(() => ({
-    display: 'flex',
-    alignContent: 'center',
-    alignItems: 'center',
-    alignSelf: 'center',
-    boxSizing: 'border-box',
-    position: 'relative',
-    '& .header-tools-modal': {
-        position: 'absolute',
-        zIndex: 9999,
-        top: '100%',
-    },
-    '& .tools-ul-li': {
-        width: '100%',
-        display: 'flex',
-        alignContent: 'center',
-        alignItems: 'center',
-        alignSelf: 'center',
-        boxSizing: 'border-box',
-        position: 'relative',
-        cursor: 'pointer',
-        padding: '0 10px',
-    },
-}));
-const Index$4 = ({ className, children, ...props }) => (jsxRuntime.jsx(Container$1, { className: `header-tools-item ${className}`, ...props, children: children ?? null }));
-
-const Index$3 = ({ data, current, mode = 'light', onClick }) => {
-    const handleClick = (e) => {
-        const target = e.target;
-        const li = target.closest('li');
-        if (!li)
-            return;
-        const value = li.getAttribute('data-value');
-        if (!value)
-            return;
-        const res = data.find(item => item.value === value);
-        if (res && onClick) {
-            onClick(res);
-        }
-    };
-    return (jsxRuntime.jsx("ul", { className: "header-ul tools-ul language-ul-root", onClick: handleClick, children: data.map(item => {
-            return (jsxRuntime.jsxs("li", { className: `header-li tools-li language-li-root ${current?.id === item?.id ? 'active' : 'init'}`, "data-value": item.value, children: [item?.islogo && (jsxRuntime.jsx(jsxRuntime.Fragment, { children: item?.icon ? ((item?.[mode] ?? null)) : item?.[mode] ? (jsxRuntime.jsx(Index$e, { name: item?.[mode], className: "li-logo-left" })) : null })), jsxRuntime.jsx(Index$6, { className: "li-text", children: item.text })] }, item.id));
-        }) }));
-};
-
-const Index$2 = ({ data, current, order = 4, children, mode = 'light', buttonprops, modalprops, onChange, }) => {
-    const [open, setOpen] = React.useState(false);
-    const ref = React.useRef(null);
-    const handleshow = () => {
-        setOpen(true);
-    };
-    const handleclose = () => {
-        setOpen(false);
-    };
-    const logo = React.useMemo(() => {
-        if (current?.icon?.[mode]) {
-            return current.icon[mode];
-        }
-        return null;
-    }, [current, mode]);
-    return (jsxRuntime.jsxs(Index$4, { className: "header-tool-item  header-tool-language language-root", order: order, children: [jsxRuntime.jsx(material.IconButton, { onClick: handleshow, ref: ref, ...buttonprops, className: `tool-btn language-btn ${buttonprops?.className}`, children: current?.islogo && (jsxRuntime.jsx(jsxRuntime.Fragment, { children: current.icon ? (logo) : current?.[mode] ? (jsxRuntime.jsx(Index$e, { name: current?.[mode], className: "tool-logo" })) : null })) }), children ?? (jsxRuntime.jsx(Index$b, { open: open, keepMounted: true, anchorEl: ref.current, onClose: handleclose, ...modalprops, children: jsxRuntime.jsx(Index$3, { data: data, current: current, mode: mode, onClick: onChange }) }))] }));
-};
-const MLanguage = Index$2;
-MLanguage.Nav = Index$3;
-
-const Index$1 = ({ mode = 'light', order, svgprops, className, sx, ...props }) => {
-    return (jsxRuntime.jsx(material.IconButton, { ...props, className: `header-tool-item  header-tool-mode mode-root ${className}`, sx: {
-            order: order,
-            ...sx,
-        }, children: jsxRuntime.jsx(Index$e, { name: mode === 'dark' ? 'mode_dark' : 'mode_light', mode: mode, ...svgprops }) }));
-};
-
-const Container = material.styled(material.Box)(() => ({
-    display: 'flex',
-    alignContent: 'center',
-    alignItems: 'center',
-    alignSelf: 'center',
-    boxSizing: 'border-box',
-    position: 'relative',
-}));
-const Index = ({ className, children, ...props }) => (jsxRuntime.jsx(Container, { className: `tool tool-root ${className}`, ...props, children: children ?? null }));
 
 const formatday = () => { };
 
@@ -1478,33 +1321,8 @@ const useMode = () => {
     };
 };
 
-function useImmer(initialValue) {
-    const [value, updateValue] = React.useState(() => immer.freeze(typeof initialValue === 'function' ? initialValue() : initialValue, true));
-    return [
-        value,
-        React.useCallback((updater) => {
-            if (typeof updater === 'function') {
-                updateValue(immer.produce(updater));
-            }
-            else {
-                updateValue(immer.freeze(updater));
-            }
-        }, []),
-    ];
-}
-
-exports.Header = Index$c;
-exports.HeaderPopover = Index$b;
-exports.MLanguage = MLanguage;
-exports.MMode = Index$1;
-exports.MenuButton = Index$8;
-exports.MenuLi = Index$5;
-exports.MenuModal = Index$7;
-exports.MenuUl = Index$9;
-exports.Navigation = Index$a;
-exports.SvgIcon = Index$e;
-exports.Tool = Index;
-exports.Typography = Index$6;
+exports.SvgIcon = Index$1;
+exports.Typography = Index;
 exports.clearStorage = clearStorage;
 exports.formatday = formatday;
 exports.formatmoney = formatmoney;
@@ -1515,7 +1333,6 @@ exports.removeStorage = removeStorage;
 exports.setItem = setItem;
 exports.setStorage = setStorage;
 exports.useBreakpoints = useBreakpoints;
-exports.useImmer = useImmer;
 exports.useLanguage = useLanguage;
 exports.useMode = useMode;
 //# sourceMappingURL=index.js.map
