@@ -1,5 +1,10 @@
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 import fs from 'fs';
 import path from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const COMPONENTS_DIR = path.join(process.cwd(), 'src/components');
 const STORIES_DIR = path.join(process.cwd(), 'stories');
@@ -52,7 +57,7 @@ import ${ComponentName} from '${importPath}';
 import './index.css';
 
 const meta: Meta<typeof ${ComponentName}> = {
-  title: '${relativePath}/${ComponentName}',
+  title: '${ComponentTitle}',
   component: ${ComponentName},
   parameters: {
     layout: 'centered',
@@ -84,7 +89,7 @@ function ensureDirectoryExists(dir: string) {
   }
 }
 
-function generateStories() {
+async function generateStories() {
   try {
     const components = findComponents(targetDir);
     const totalComponents = components.length;
@@ -100,13 +105,13 @@ function generateStories() {
     }
 
     for (const component of components) {
-      processedComponents++;
-      const progress = Math.floor((processedComponents / totalComponents) * 100);
-      const progressBar =
-        '='.repeat(Math.floor(progress / 2)) + ' '.repeat(50 - Math.floor(progress / 2));
-      process.stdout.write(`\r[${progressBar}] ${progress}% | 正在处理: ${component.name}`);
-      
       try {
+        processedComponents++;
+        const progress = Math.floor((processedComponents / totalComponents) * 100);
+        const progressBar =
+          '='.repeat(Math.floor(progress / 2)) + ' '.repeat(50 - Math.floor(progress / 2));
+        process.stdout.write(`\r[${progressBar}] ${progress}% | 正在处理: ${component.name}`);
+        
         // Create stories directory structure matching the component structure
         const componentStoryDir = path.join(STORIES_DIR, component.relativePath);
         ensureDirectoryExists(componentStoryDir);
@@ -136,4 +141,8 @@ function generateStories() {
   }
 }
 
-generateStories();
+// 使用 async/await 处理异步操作
+generateStories().catch(error => {
+  console.error('Unhandled error:', error);
+  process.exit(1);
+});
