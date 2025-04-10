@@ -1,32 +1,934 @@
 'use strict';
 
 var jsxRuntime = require('react/jsx-runtime');
-var React = require('react');
 var material = require('@mui/material');
+var React = require('react');
+var utils = require('@mui/material/utils');
 var dayjs = require('dayjs');
 var reactI18next = require('react-i18next');
 var zustand = require('zustand');
 var immer = require('immer');
 
-var enusdark = "data:image/svg+xml,%3Csvg%20width%3D%2230%22%20height%3D%2230%22%20viewBox%3D%220%200%2030%2030%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Crect%20width%3D%2230%22%20height%3D%2230%22%20rx%3D%2215%22%20fill%3D%22%232A2A32%22%2F%3E%3Cmask%20id%3D%22mask0_17855_32468%22%20style%3D%22mask-type%3Aalpha%22%20maskUnits%3D%22userSpaceOnUse%22%20x%3D%222%22%20y%3D%222%22%20width%3D%2226%22%20height%3D%2226%22%3E%3Crect%20x%3D%223%22%20y%3D%223%22%20width%3D%2224%22%20height%3D%2224%22%20rx%3D%2212%22%20fill%3D%22%23D9D9D9%22%20stroke%3D%22white%22%20stroke-width%3D%220.8%22%2F%3E%3C%2Fmask%3E%3Cg%20mask%3D%22url%28%23mask0_17855_32468%29%22%3E%3Cpath%20d%3D%22M-1%203V28H31V3H-1Z%22%20fill%3D%22%232A2A32%22%2F%3E%3Cpath%20d%3D%22M-3%207L33%2025ZM33%207L-3%2025Z%22%20fill%3D%22black%22%2F%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M10.0772%2016L-8%206.94527L-6.03088%203L15%2013.5342L36.0309%203L38%206.94527L19.9228%2016L38%2025.0547L36.0309%2029L15%2018.4658L-6.03088%2029L-8%2025.0547L10.0772%2016Z%22%20fill%3D%22white%22%2F%3E%3Cmask%20id%3D%22mask1_17855_32468%22%20style%3D%22mask-type%3Aalpha%22%20maskUnits%3D%22userSpaceOnUse%22%20x%3D%22-4%22%20y%3D%226%22%20width%3D%2238%22%20height%3D%2219%22%3E%3Cpath%20d%3D%22M15%2015.8838H33.1867V24.9772L15%2015.8838ZM15%2015.8838V24.9772H-3.18678L15%2015.8838ZM15%2015.8838H-3.18678V6.79044L15%2015.8838ZM15%2015.8838V6.79044H33.1867L15%2015.8838Z%22%20fill%3D%22white%22%2F%3E%3C%2Fmask%3E%3Cg%20mask%3D%22url%28%23mask1_17855_32468%29%22%3E%3Cpath%20d%3D%22M-3.18678%206.79044L33.1867%2024.9772ZM33.1867%206.79044L-3.18678%2024.9772Z%22%20fill%3D%22black%22%2F%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M12.2888%2015.8838L-3.72903%207.8749L-2.64459%205.70601L14.9999%2014.5283L32.6444%205.70601L33.7289%207.8749L17.711%2015.8838L33.7289%2023.8927L32.6444%2026.0616L14.9999%2017.2394L-2.64459%2026.0616L-3.72903%2023.8927L12.2888%2015.8838Z%22%20fill%3D%22%23C8102E%22%2F%3E%3C%2Fg%3E%3Cpath%20d%3D%22M15%207V25ZM-3%2016H33Z%22%20fill%3D%22black%22%2F%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M12%2013.2247V2H18V13.2247H33V19.2921H18V29H12V19.2921H-3V13.2247H12Z%22%20fill%3D%22white%22%2F%3E%3Cpath%20d%3D%22M15%202V29ZM-3%2016.3191H33Z%22%20fill%3D%22black%22%2F%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M13.2%2014.4989V2H16.8V14.4989H33V18.1393H16.8V29H13.2V18.1393H-3V14.4989H13.2Z%22%20fill%3D%22%23C8102E%22%2F%3E%3C%2Fg%3E%3Cg%20filter%3D%22url%28%23filter0_i_17855_32468%29%22%3E%3Crect%20x%3D%223%22%20y%3D%223%22%20width%3D%2224%22%20height%3D%2224%22%20rx%3D%2212%22%20stroke%3D%22%23E9E9E9%22%20stroke-width%3D%220.8%22%2F%3E%3C%2Fg%3E%3Cdefs%3E%3Cfilter%20id%3D%22filter0_i_17855_32468%22%20x%3D%222.60001%22%20y%3D%222.6%22%20width%3D%2224.8%22%20height%3D%2225.8%22%20filterUnits%3D%22userSpaceOnUse%22%20color-interpolation-filters%3D%22sRGB%22%3E%3CfeFlood%20flood-opacity%3D%220%22%20result%3D%22BackgroundImageFix%22%2F%3E%3CfeBlend%20mode%3D%22normal%22%20in%3D%22SourceGraphic%22%20in2%3D%22BackgroundImageFix%22%20result%3D%22shape%22%2F%3E%3CfeColorMatrix%20in%3D%22SourceAlpha%22%20type%3D%22matrix%22%20values%3D%220%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%20127%200%22%20result%3D%22hardAlpha%22%2F%3E%3CfeOffset%20dy%3D%221%22%2F%3E%3CfeGaussianBlur%20stdDeviation%3D%222%22%2F%3E%3CfeComposite%20in2%3D%22hardAlpha%22%20operator%3D%22arithmetic%22%20k2%3D%22-1%22%20k3%3D%221%22%2F%3E%3CfeColorMatrix%20type%3D%22matrix%22%20values%3D%220%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200.05%200%22%2F%3E%3CfeBlend%20mode%3D%22normal%22%20in2%3D%22shape%22%20result%3D%22effect1_innerShadow_17855_32468%22%2F%3E%3C%2Ffilter%3E%3C%2Fdefs%3E%3C%2Fsvg%3E";
+function _interopNamespaceDefault(e) {
+    var n = Object.create(null);
+    if (e) {
+        Object.keys(e).forEach(function (k) {
+            if (k !== 'default') {
+                var d = Object.getOwnPropertyDescriptor(e, k);
+                Object.defineProperty(n, k, d.get ? d : {
+                    enumerable: true,
+                    get: function () { return e[k]; }
+                });
+            }
+        });
+    }
+    n.default = e;
+    return Object.freeze(n);
+}
 
-var enuslight = "data:image/svg+xml,%3Csvg%20width%3D%2230%22%20height%3D%2230%22%20viewBox%3D%220%200%2030%2030%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Crect%20width%3D%2230%22%20height%3D%2230%22%20rx%3D%2215%22%20fill%3D%22%23F6F6F6%22%2F%3E%3Cmask%20id%3D%22mask0_17855_32448%22%20style%3D%22mask-type%3Aalpha%22%20maskUnits%3D%22userSpaceOnUse%22%20x%3D%222%22%20y%3D%222%22%20width%3D%2226%22%20height%3D%2226%22%3E%3Crect%20x%3D%223%22%20y%3D%223%22%20width%3D%2224%22%20height%3D%2224%22%20rx%3D%2212%22%20fill%3D%22%23D9D9D9%22%20stroke%3D%22white%22%20stroke-width%3D%220.8%22%2F%3E%3C%2Fmask%3E%3Cg%20mask%3D%22url%28%23mask0_17855_32448%29%22%3E%3Cpath%20d%3D%22M-1%203V28H31V3H-1Z%22%20fill%3D%22%23012169%22%2F%3E%3Cpath%20d%3D%22M-3%207L33%2025ZM33%207L-3%2025Z%22%20fill%3D%22black%22%2F%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M10.0772%2016L-8%206.94527L-6.03088%203L15%2013.5342L36.0309%203L38%206.94527L19.9228%2016L38%2025.0547L36.0309%2029L15%2018.4658L-6.03088%2029L-8%2025.0547L10.0772%2016Z%22%20fill%3D%22white%22%2F%3E%3Cmask%20id%3D%22mask1_17855_32448%22%20style%3D%22mask-type%3Aalpha%22%20maskUnits%3D%22userSpaceOnUse%22%20x%3D%22-4%22%20y%3D%226%22%20width%3D%2238%22%20height%3D%2219%22%3E%3Cpath%20d%3D%22M15%2015.8838H33.1867V24.9772L15%2015.8838ZM15%2015.8838V24.9772H-3.18678L15%2015.8838ZM15%2015.8838H-3.18678V6.79044L15%2015.8838ZM15%2015.8838V6.79044H33.1867L15%2015.8838Z%22%20fill%3D%22white%22%2F%3E%3C%2Fmask%3E%3Cg%20mask%3D%22url%28%23mask1_17855_32448%29%22%3E%3Cpath%20d%3D%22M-3.18678%206.79044L33.1867%2024.9772ZM33.1867%206.79044L-3.18678%2024.9772Z%22%20fill%3D%22black%22%2F%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M12.2888%2015.8838L-3.72903%207.8749L-2.64459%205.70601L14.9999%2014.5283L32.6444%205.70601L33.7289%207.8749L17.711%2015.8838L33.7289%2023.8927L32.6444%2026.0616L14.9999%2017.2394L-2.64459%2026.0616L-3.72903%2023.8927L12.2888%2015.8838Z%22%20fill%3D%22%23C8102E%22%2F%3E%3C%2Fg%3E%3Cpath%20d%3D%22M15%207V25ZM-3%2016H33Z%22%20fill%3D%22black%22%2F%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M12%2013.2247V2H18V13.2247H33V19.2921H18V29H12V19.2921H-3V13.2247H12Z%22%20fill%3D%22white%22%2F%3E%3Cpath%20d%3D%22M15%202V29ZM-3%2016.3191H33Z%22%20fill%3D%22black%22%2F%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M13.2%2014.4989V2H16.8V14.4989H33V18.1393H16.8V29H13.2V18.1393H-3V14.4989H13.2Z%22%20fill%3D%22%23C8102E%22%2F%3E%3C%2Fg%3E%3Cg%20filter%3D%22url%28%23filter0_i_17855_32448%29%22%3E%3Crect%20x%3D%223%22%20y%3D%223%22%20width%3D%2224%22%20height%3D%2224%22%20rx%3D%2212%22%20stroke%3D%22%23E9E9E9%22%20stroke-width%3D%220.8%22%2F%3E%3C%2Fg%3E%3Cdefs%3E%3Cfilter%20id%3D%22filter0_i_17855_32448%22%20x%3D%222.60001%22%20y%3D%222.6%22%20width%3D%2224.8%22%20height%3D%2225.8%22%20filterUnits%3D%22userSpaceOnUse%22%20color-interpolation-filters%3D%22sRGB%22%3E%3CfeFlood%20flood-opacity%3D%220%22%20result%3D%22BackgroundImageFix%22%2F%3E%3CfeBlend%20mode%3D%22normal%22%20in%3D%22SourceGraphic%22%20in2%3D%22BackgroundImageFix%22%20result%3D%22shape%22%2F%3E%3CfeColorMatrix%20in%3D%22SourceAlpha%22%20type%3D%22matrix%22%20values%3D%220%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%20127%200%22%20result%3D%22hardAlpha%22%2F%3E%3CfeOffset%20dy%3D%221%22%2F%3E%3CfeGaussianBlur%20stdDeviation%3D%222%22%2F%3E%3CfeComposite%20in2%3D%22hardAlpha%22%20operator%3D%22arithmetic%22%20k2%3D%22-1%22%20k3%3D%221%22%2F%3E%3CfeColorMatrix%20type%3D%22matrix%22%20values%3D%220%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200.05%200%22%2F%3E%3CfeBlend%20mode%3D%22normal%22%20in2%3D%22shape%22%20result%3D%22effect1_innerShadow_17855_32448%22%2F%3E%3C%2Ffilter%3E%3C%2Fdefs%3E%3C%2Fsvg%3E";
+var React__namespace = /*#__PURE__*/_interopNamespaceDefault(React);
 
-var krdark = "data:image/svg+xml,%3Csvg%20width%3D%2230%22%20height%3D%2230%22%20viewBox%3D%220%200%2030%2030%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cg%20clip-path%3D%22url%28%23clip0_17855_32430%29%22%3E%3Cg%20filter%3D%22url%28%23filter0_i_17855_32430%29%22%3E%3Cpath%20d%3D%22M30%2015C30%206.71573%2023.2843%200%2015%200C6.71573%200%200%206.71573%200%2015C0%2023.2843%206.71573%2030%2015%2030C23.2843%2030%2030%2023.2843%2030%2015Z%22%20fill%3D%22%232B2B33%22%2F%3E%3Cpath%20d%3D%22M27%2015C27%208.37258%2021.6274%203%2015%203C8.37258%203%203%208.37258%203%2015C3%2021.6274%208.37258%2027%2015%2027C21.6274%2027%2027%2021.6274%2027%2015Z%22%20fill%3D%22white%22%2F%3E%3Cg%20filter%3D%22url%28%23filter1_i_17855_32430%29%22%3E%3Cpath%20d%3D%22M27%2015C27%208.37258%2021.6274%203%2015%203C8.37258%203%203%208.37258%203%2015C3%2021.6274%208.37258%2027%2015%2027C21.6274%2027%2027%2021.6274%2027%2015Z%22%20stroke%3D%22%23EAEAEA%22%20stroke-width%3D%220.8%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cpath%20d%3D%22M5%2011L7.66667%207.00004L8.33333%207.44448L5.66667%2011.4445L5%2011ZM6%2011.6667L8.66667%207.66671L9.33333%208.11115L6.66667%2012.1111L6%2011.6667ZM7%2012.3334L9.66667%208.33337L10.3333%208.77782L7.66667%2012.7778L7%2012.3334Z%22%20fill%3D%22black%22%2F%3E%3Cpath%20d%3D%22M19.6666%2020.7778L22.3333%2016.7778L23%2017.2223L20.3333%2021.2223L19.6666%2020.7778ZM20.6666%2021.4445L23.3333%2017.4445L24%2017.889L21.3333%2021.889L20.6666%2021.4445ZM21.6666%2022.1112L24.3333%2018.1112L25%2018.5556L22.3333%2022.5556L21.6666%2022.1112Z%22%20fill%3D%22black%22%2F%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M23.8889%2020.9444L20.5555%2018.7222L20.7777%2018.3889L24.1111%2020.6111L23.8889%2020.9444Z%22%20fill%3D%22white%22%2F%3E%3Cpath%20d%3D%22M11%2012.1111C11.7073%2011.0502%2012.807%2010.3138%2014.0572%2010.0637C15.3074%209.81369%2016.6058%2010.0705%2017.6667%2010.7778C18.7275%2011.485%2019.464%2012.5847%2019.7141%2013.835C19.9641%2015.0852%2019.7073%2016.3836%2019%2017.4444L11%2012.1111Z%22%20fill%3D%22%23CD2E3A%22%2F%3E%3Cpath%20d%3D%22M11%2012.1111C10.2928%2013.172%2010.0359%2014.4703%2010.2859%2015.7206C10.536%2016.9708%2011.2725%2018.0705%2012.3333%2018.7778C13.3942%2019.485%2014.6926%2019.7419%2015.9428%2019.4918C17.193%2019.2418%2018.2927%2018.5053%2019%2017.4444C19.3536%2016.914%2019.482%2016.2648%2019.357%2015.6397C19.232%2015.0146%2018.8638%2014.4647%2018.3333%2014.1111C17.8029%2013.7575%2017.1537%2013.6291%2016.5286%2013.7541C15.9035%2013.8791%2015.3536%2014.2473%2015%2014.7778L11%2012.1111Z%22%20fill%3D%22%230047A0%22%2F%3E%3Cpath%20d%3D%22M14.9999%2014.7777C15.7363%2013.6732%2015.4378%2012.1808%2014.3332%2011.4444C13.2287%2010.708%2011.7363%2011.0065%2010.9999%2012.1111C10.2635%2013.2156%2010.562%2014.708%2011.6666%2015.4444C12.7711%2016.1808%2014.2635%2015.8823%2014.9999%2014.7777Z%22%20fill%3D%22%23CD2E3A%22%2F%3E%3Cpath%20d%3D%22M7.66667%2022.5555L5.00001%2018.5555L5.66667%2018.1111L8.33334%2022.1111L7.66667%2022.5555ZM8.66667%2021.8889L6.00001%2017.8889L6.66667%2017.4444L9.33334%2021.4444L8.66667%2021.8889ZM9.66667%2021.2222L7.00001%2017.2222L7.66667%2016.7778L10.3333%2020.7777L9.66667%2021.2222Z%22%20fill%3D%22black%22%2F%3E%3Cpath%20d%3D%22M22.3333%2012.7778L19.6666%208.77776L20.3333%208.33331L23%2012.3333L22.3333%2012.7778ZM23.3333%2012.1111L20.6666%208.11109L21.3333%207.66665L24%2011.6666L23.3333%2012.1111ZM24.3333%2011.4444L21.6666%207.44442L22.3333%206.99998L25%2011L24.3333%2011.4444Z%22%20fill%3D%22black%22%2F%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M8.27782%2019.5001L7.27782%2020.1668L7.05559%2019.8334L8.05559%2019.1668L8.27782%2019.5001ZM21.9445%2010.389L20.7778%2011.1668L20.5556%2010.8334L21.7223%2010.0557L21.9445%2010.389ZM23.9445%209.05566L22.9445%209.72232L22.7223%209.38899L23.7223%208.72232L23.9445%209.05566Z%22%20fill%3D%22white%22%2F%3E%3C%2Fg%3E%3Cdefs%3E%3Cfilter%20id%3D%22filter0_i_17855_32430%22%20x%3D%220%22%20y%3D%220%22%20width%3D%2230%22%20height%3D%2231%22%20filterUnits%3D%22userSpaceOnUse%22%20color-interpolation-filters%3D%22sRGB%22%3E%3CfeFlood%20flood-opacity%3D%220%22%20result%3D%22BackgroundImageFix%22%2F%3E%3CfeBlend%20mode%3D%22normal%22%20in%3D%22SourceGraphic%22%20in2%3D%22BackgroundImageFix%22%20result%3D%22shape%22%2F%3E%3CfeColorMatrix%20in%3D%22SourceAlpha%22%20type%3D%22matrix%22%20values%3D%220%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%20127%200%22%20result%3D%22hardAlpha%22%2F%3E%3CfeOffset%20dy%3D%221%22%2F%3E%3CfeGaussianBlur%20stdDeviation%3D%222%22%2F%3E%3CfeComposite%20in2%3D%22hardAlpha%22%20operator%3D%22arithmetic%22%20k2%3D%22-1%22%20k3%3D%221%22%2F%3E%3CfeColorMatrix%20type%3D%22matrix%22%20values%3D%220%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200.05%200%22%2F%3E%3CfeBlend%20mode%3D%22normal%22%20in2%3D%22shape%22%20result%3D%22effect1_innerShadow_17855_32430%22%2F%3E%3C%2Ffilter%3E%3Cfilter%20id%3D%22filter1_i_17855_32430%22%20x%3D%222.6%22%20y%3D%222.6%22%20width%3D%2224.8%22%20height%3D%2225.8%22%20filterUnits%3D%22userSpaceOnUse%22%20color-interpolation-filters%3D%22sRGB%22%3E%3CfeFlood%20flood-opacity%3D%220%22%20result%3D%22BackgroundImageFix%22%2F%3E%3CfeBlend%20mode%3D%22normal%22%20in%3D%22SourceGraphic%22%20in2%3D%22BackgroundImageFix%22%20result%3D%22shape%22%2F%3E%3CfeColorMatrix%20in%3D%22SourceAlpha%22%20type%3D%22matrix%22%20values%3D%220%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%20127%200%22%20result%3D%22hardAlpha%22%2F%3E%3CfeOffset%20dy%3D%221%22%2F%3E%3CfeGaussianBlur%20stdDeviation%3D%222%22%2F%3E%3CfeComposite%20in2%3D%22hardAlpha%22%20operator%3D%22arithmetic%22%20k2%3D%22-1%22%20k3%3D%221%22%2F%3E%3CfeColorMatrix%20type%3D%22matrix%22%20values%3D%220%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200.05%200%22%2F%3E%3CfeBlend%20mode%3D%22normal%22%20in2%3D%22shape%22%20result%3D%22effect1_innerShadow_17855_32430%22%2F%3E%3C%2Ffilter%3E%3CclipPath%20id%3D%22clip0_17855_32430%22%3E%3Crect%20width%3D%2230%22%20height%3D%2230%22%20fill%3D%22white%22%2F%3E%3C%2FclipPath%3E%3C%2Fdefs%3E%3C%2Fsvg%3E";
+var _rect$3, _rect2$1, _path$7, _path2$6, _path3$5, _path4$3, _g$9, _path5$3, _path6$1, _path7$1, _path8$1, _g2$3, _defs$9;
+function _extends$b() { return _extends$b = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends$b.apply(null, arguments); }
+var SvgEnUsDark = function SvgEnUsDark(props) {
+  return /*#__PURE__*/React__namespace.createElement("svg", _extends$b({
+    xmlns: "http://www.w3.org/2000/svg",
+    fill: "none",
+    viewBox: "0 0 30 30"
+  }, props), _rect$3 || (_rect$3 = /*#__PURE__*/React__namespace.createElement("rect", {
+    width: 30,
+    height: 30,
+    fill: "#2A2A32",
+    rx: 15
+  })), /*#__PURE__*/React__namespace.createElement("mask", {
+    id: "a",
+    width: 26,
+    height: 26,
+    x: 2,
+    y: 2,
+    maskUnits: "userSpaceOnUse",
+    style: {
+      maskType: "alpha"
+    }
+  }, _rect2$1 || (_rect2$1 = /*#__PURE__*/React__namespace.createElement("rect", {
+    width: 24,
+    height: 24,
+    x: 3,
+    y: 3,
+    fill: "#D9D9D9",
+    stroke: "#fff",
+    strokeWidth: 0.8,
+    rx: 12
+  }))), /*#__PURE__*/React__namespace.createElement("g", {
+    mask: "url(#a)"
+  }, _path$7 || (_path$7 = /*#__PURE__*/React__namespace.createElement("path", {
+    fill: "#2A2A32",
+    d: "M-1 3v25h32V3z"
+  })), _path2$6 || (_path2$6 = /*#__PURE__*/React__namespace.createElement("path", {
+    fill: "#000",
+    d: "m-3 7 36 18Zm36 0L-3 25Z"
+  })), _path3$5 || (_path3$5 = /*#__PURE__*/React__namespace.createElement("path", {
+    fill: "#fff",
+    fillRule: "evenodd",
+    d: "M10.077 16-8 6.945-6.03 3 15 13.534 36.03 3 38 6.945 19.923 16 38 25.055 36.03 29 15 18.466-6.03 29-8 25.055z",
+    clipRule: "evenodd"
+  })), /*#__PURE__*/React__namespace.createElement("mask", {
+    id: "b",
+    width: 38,
+    height: 19,
+    x: -4,
+    y: 6,
+    maskUnits: "userSpaceOnUse",
+    style: {
+      maskType: "alpha"
+    }
+  }, _path4$3 || (_path4$3 = /*#__PURE__*/React__namespace.createElement("path", {
+    fill: "#fff",
+    d: "M15 15.884h18.187v9.093zm0 0v9.093H-3.187zm0 0H-3.187V6.79zm0 0V6.79h18.187z"
+  }))), _g$9 || (_g$9 = /*#__PURE__*/React__namespace.createElement("g", {
+    mask: "url(#b)"
+  }, /*#__PURE__*/React__namespace.createElement("path", {
+    fill: "#000",
+    d: "m-3.187 6.79 36.374 18.187Zm36.374 0L-3.187 24.977Z"
+  }), /*#__PURE__*/React__namespace.createElement("path", {
+    fill: "#C8102E",
+    fillRule: "evenodd",
+    d: "M12.289 15.884-3.73 7.874l1.084-2.168L15 14.528l17.644-8.822 1.085 2.169-16.018 8.009 16.018 8.009-1.085 2.169L15 17.239l-17.645 8.823-1.084-2.17z",
+    clipRule: "evenodd"
+  }))), _path5$3 || (_path5$3 = /*#__PURE__*/React__namespace.createElement("path", {
+    fill: "#000",
+    d: "M15 7v18Zm-18 9h36Z"
+  })), _path6$1 || (_path6$1 = /*#__PURE__*/React__namespace.createElement("path", {
+    fill: "#fff",
+    fillRule: "evenodd",
+    d: "M12 13.225V2h6v11.225h15v6.067H18V29h-6v-9.708H-3v-6.067z",
+    clipRule: "evenodd"
+  })), _path7$1 || (_path7$1 = /*#__PURE__*/React__namespace.createElement("path", {
+    fill: "#000",
+    d: "M15 2v27ZM-3 16.32h36Z"
+  })), _path8$1 || (_path8$1 = /*#__PURE__*/React__namespace.createElement("path", {
+    fill: "#C8102E",
+    fillRule: "evenodd",
+    d: "M13.2 14.499V2h3.6v12.499H33v3.64H16.8V29h-3.6V18.14H-3v-3.641z",
+    clipRule: "evenodd"
+  }))), _g2$3 || (_g2$3 = /*#__PURE__*/React__namespace.createElement("g", {
+    filter: "url(#c)"
+  }, /*#__PURE__*/React__namespace.createElement("rect", {
+    width: 24,
+    height: 24,
+    x: 3,
+    y: 3,
+    stroke: "#E9E9E9",
+    strokeWidth: 0.8,
+    rx: 12
+  }))), _defs$9 || (_defs$9 = /*#__PURE__*/React__namespace.createElement("defs", null, /*#__PURE__*/React__namespace.createElement("filter", {
+    id: "c",
+    width: 24.8,
+    height: 25.8,
+    x: 2.6,
+    y: 2.6,
+    colorInterpolationFilters: "sRGB",
+    filterUnits: "userSpaceOnUse"
+  }, /*#__PURE__*/React__namespace.createElement("feFlood", {
+    floodOpacity: 0,
+    result: "BackgroundImageFix"
+  }), /*#__PURE__*/React__namespace.createElement("feBlend", {
+    "in": "SourceGraphic",
+    in2: "BackgroundImageFix",
+    result: "shape"
+  }), /*#__PURE__*/React__namespace.createElement("feColorMatrix", {
+    "in": "SourceAlpha",
+    result: "hardAlpha",
+    values: "0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+  }), /*#__PURE__*/React__namespace.createElement("feOffset", {
+    dy: 1
+  }), /*#__PURE__*/React__namespace.createElement("feGaussianBlur", {
+    stdDeviation: 2
+  }), /*#__PURE__*/React__namespace.createElement("feComposite", {
+    in2: "hardAlpha",
+    k2: -1,
+    k3: 1,
+    operator: "arithmetic"
+  }), /*#__PURE__*/React__namespace.createElement("feColorMatrix", {
+    values: "0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.05 0"
+  }), /*#__PURE__*/React__namespace.createElement("feBlend", {
+    in2: "shape",
+    result: "effect1_innerShadow_17855_32468"
+  })))));
+};
+var Memo$b = /*#__PURE__*/React.memo(SvgEnUsDark);
 
-var krlight = "data:image/svg+xml,%3Csvg%20width%3D%2230%22%20height%3D%2230%22%20viewBox%3D%220%200%2030%2030%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cg%20clip-path%3D%22url%28%23clip0_17855_32412%29%22%3E%3Cpath%20d%3D%22M30%2015C30%206.71573%2023.2843%200%2015%200C6.71573%200%200%206.71573%200%2015C0%2023.2843%206.71573%2030%2015%2030C23.2843%2030%2030%2023.2843%2030%2015Z%22%20fill%3D%22%23F6F6F6%22%2F%3E%3Cpath%20d%3D%22M27%2015C27%208.37258%2021.6274%203%2015%203C8.37258%203%203%208.37258%203%2015C3%2021.6274%208.37258%2027%2015%2027C21.6274%2027%2027%2021.6274%2027%2015Z%22%20fill%3D%22white%22%2F%3E%3Cpath%20d%3D%22M27%2015C27%208.37258%2021.6274%203%2015%203C8.37258%203%203%208.37258%203%2015C3%2021.6274%208.37258%2027%2015%2027C21.6274%2027%2027%2021.6274%2027%2015Z%22%20stroke%3D%22%23EAEAEA%22%20stroke-width%3D%220.8%22%2F%3E%3Cpath%20d%3D%22M5.00001%2011L7.66667%207.00004L8.33334%207.44448L5.66667%2011.4445L5.00001%2011ZM6.00001%2011.6667L8.66667%207.66671L9.33334%208.11115L6.66667%2012.1111L6.00001%2011.6667ZM7.00001%2012.3334L9.66667%208.33337L10.3333%208.77782L7.66667%2012.7778L7.00001%2012.3334Z%22%20fill%3D%22black%22%2F%3E%3Cpath%20d%3D%22M19.6666%2020.7778L22.3333%2016.7778L23%2017.2223L20.3333%2021.2223L19.6666%2020.7778ZM20.6666%2021.4445L23.3333%2017.4445L24%2017.889L21.3333%2021.889L20.6666%2021.4445ZM21.6666%2022.1112L24.3333%2018.1112L25%2018.5556L22.3333%2022.5556L21.6666%2022.1112Z%22%20fill%3D%22black%22%2F%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M23.8889%2020.9444L20.5555%2018.7222L20.7777%2018.3889L24.1111%2020.6111L23.8889%2020.9444Z%22%20fill%3D%22white%22%2F%3E%3Cpath%20d%3D%22M11%2012.1111C11.7073%2011.0502%2012.807%2010.3138%2014.0572%2010.0637C15.3074%209.81369%2016.6058%2010.0705%2017.6667%2010.7778C18.7275%2011.485%2019.464%2012.5847%2019.714%2013.835C19.9641%2015.0852%2019.7072%2016.3836%2019%2017.4444L11%2012.1111Z%22%20fill%3D%22%23CD2E3A%22%2F%3E%3Cpath%20d%3D%22M11%2012.1111C10.2928%2013.172%2010.0359%2014.4703%2010.2859%2015.7206C10.536%2016.9708%2011.2725%2018.0705%2012.3333%2018.7778C13.3942%2019.485%2014.6926%2019.7419%2015.9428%2019.4918C17.193%2019.2418%2018.2927%2018.5053%2019%2017.4444C19.3536%2016.914%2019.482%2016.2648%2019.357%2015.6397C19.232%2015.0146%2018.8638%2014.4647%2018.3333%2014.1111C17.8029%2013.7575%2017.1537%2013.6291%2016.5286%2013.7541C15.9035%2013.8791%2015.3536%2014.2473%2015%2014.7778L11%2012.1111Z%22%20fill%3D%22%230047A0%22%2F%3E%3Cpath%20d%3D%22M14.9999%2014.7777C15.7363%2013.6732%2015.4378%2012.1808%2014.3332%2011.4444C13.2287%2010.708%2011.7363%2011.0065%2010.9999%2012.1111C10.2635%2013.2156%2010.562%2014.708%2011.6666%2015.4444C12.7711%2016.1808%2014.2635%2015.8823%2014.9999%2014.7777Z%22%20fill%3D%22%23CD2E3A%22%2F%3E%3Cpath%20d%3D%22M7.66668%2022.5555L5.00001%2018.5555L5.66668%2018.1111L8.33335%2022.1111L7.66668%2022.5555ZM8.66668%2021.8889L6.00001%2017.8889L6.66668%2017.4444L9.33335%2021.4444L8.66668%2021.8889ZM9.66668%2021.2222L7.00001%2017.2222L7.66668%2016.7778L10.3333%2020.7777L9.66668%2021.2222Z%22%20fill%3D%22black%22%2F%3E%3Cpath%20d%3D%22M22.3333%2012.7778L19.6666%208.77776L20.3333%208.33331L23%2012.3333L22.3333%2012.7778ZM23.3333%2012.1111L20.6666%208.11109L21.3333%207.66665L24%2011.6666L23.3333%2012.1111ZM24.3333%2011.4444L21.6666%207.44442L22.3333%206.99998L25%2011L24.3333%2011.4444Z%22%20fill%3D%22black%22%2F%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M8.27782%2019.5001L7.27782%2020.1668L7.0556%2019.8334L8.0556%2019.1668L8.27782%2019.5001ZM21.9445%2010.389L20.7778%2011.1668L20.5556%2010.8334L21.7223%2010.0557L21.9445%2010.389ZM23.9445%209.05566L22.9445%209.72232L22.7223%209.38899L23.7223%208.72232L23.9445%209.05566Z%22%20fill%3D%22white%22%2F%3E%3C%2Fg%3E%3Cdefs%3E%3CclipPath%20id%3D%22clip0_17855_32412%22%3E%3Crect%20width%3D%2230%22%20height%3D%2230%22%20fill%3D%22white%22%2F%3E%3C%2FclipPath%3E%3C%2Fdefs%3E%3C%2Fsvg%3E";
+var _rect$2, _rect2, _path$6, _path2$5, _path3$4, _path4$2, _g$8, _path5$2, _path6, _path7, _path8, _g2$2, _defs$8;
+function _extends$a() { return _extends$a = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends$a.apply(null, arguments); }
+var SvgEnUsLight = function SvgEnUsLight(props) {
+  return /*#__PURE__*/React__namespace.createElement("svg", _extends$a({
+    xmlns: "http://www.w3.org/2000/svg",
+    fill: "none",
+    viewBox: "0 0 30 30"
+  }, props), _rect$2 || (_rect$2 = /*#__PURE__*/React__namespace.createElement("rect", {
+    width: 30,
+    height: 30,
+    fill: "#F6F6F6",
+    rx: 15
+  })), /*#__PURE__*/React__namespace.createElement("mask", {
+    id: "a",
+    width: 26,
+    height: 26,
+    x: 2,
+    y: 2,
+    maskUnits: "userSpaceOnUse",
+    style: {
+      maskType: "alpha"
+    }
+  }, _rect2 || (_rect2 = /*#__PURE__*/React__namespace.createElement("rect", {
+    width: 24,
+    height: 24,
+    x: 3,
+    y: 3,
+    fill: "#D9D9D9",
+    stroke: "#fff",
+    strokeWidth: 0.8,
+    rx: 12
+  }))), /*#__PURE__*/React__namespace.createElement("g", {
+    mask: "url(#a)"
+  }, _path$6 || (_path$6 = /*#__PURE__*/React__namespace.createElement("path", {
+    fill: "#012169",
+    d: "M-1 3v25h32V3z"
+  })), _path2$5 || (_path2$5 = /*#__PURE__*/React__namespace.createElement("path", {
+    fill: "#000",
+    d: "m-3 7 36 18Zm36 0L-3 25Z"
+  })), _path3$4 || (_path3$4 = /*#__PURE__*/React__namespace.createElement("path", {
+    fill: "#fff",
+    fillRule: "evenodd",
+    d: "M10.077 16-8 6.945-6.03 3 15 13.534 36.03 3 38 6.945 19.923 16 38 25.055 36.03 29 15 18.466-6.03 29-8 25.055z",
+    clipRule: "evenodd"
+  })), /*#__PURE__*/React__namespace.createElement("mask", {
+    id: "b",
+    width: 38,
+    height: 19,
+    x: -4,
+    y: 6,
+    maskUnits: "userSpaceOnUse",
+    style: {
+      maskType: "alpha"
+    }
+  }, _path4$2 || (_path4$2 = /*#__PURE__*/React__namespace.createElement("path", {
+    fill: "#fff",
+    d: "M15 15.884h18.187v9.093zm0 0v9.093H-3.187zm0 0H-3.187V6.79zm0 0V6.79h18.187z"
+  }))), _g$8 || (_g$8 = /*#__PURE__*/React__namespace.createElement("g", {
+    mask: "url(#b)"
+  }, /*#__PURE__*/React__namespace.createElement("path", {
+    fill: "#000",
+    d: "m-3.187 6.79 36.374 18.187Zm36.374 0L-3.187 24.977Z"
+  }), /*#__PURE__*/React__namespace.createElement("path", {
+    fill: "#C8102E",
+    fillRule: "evenodd",
+    d: "M12.289 15.884-3.73 7.874l1.084-2.168L15 14.528l17.644-8.822 1.085 2.169-16.018 8.009 16.018 8.009-1.085 2.169L15 17.239l-17.645 8.823-1.084-2.17z",
+    clipRule: "evenodd"
+  }))), _path5$2 || (_path5$2 = /*#__PURE__*/React__namespace.createElement("path", {
+    fill: "#000",
+    d: "M15 7v18Zm-18 9h36Z"
+  })), _path6 || (_path6 = /*#__PURE__*/React__namespace.createElement("path", {
+    fill: "#fff",
+    fillRule: "evenodd",
+    d: "M12 13.225V2h6v11.225h15v6.067H18V29h-6v-9.708H-3v-6.067z",
+    clipRule: "evenodd"
+  })), _path7 || (_path7 = /*#__PURE__*/React__namespace.createElement("path", {
+    fill: "#000",
+    d: "M15 2v27ZM-3 16.32h36Z"
+  })), _path8 || (_path8 = /*#__PURE__*/React__namespace.createElement("path", {
+    fill: "#C8102E",
+    fillRule: "evenodd",
+    d: "M13.2 14.499V2h3.6v12.499H33v3.64H16.8V29h-3.6V18.14H-3v-3.641z",
+    clipRule: "evenodd"
+  }))), _g2$2 || (_g2$2 = /*#__PURE__*/React__namespace.createElement("g", {
+    filter: "url(#c)"
+  }, /*#__PURE__*/React__namespace.createElement("rect", {
+    width: 24,
+    height: 24,
+    x: 3,
+    y: 3,
+    stroke: "#E9E9E9",
+    strokeWidth: 0.8,
+    rx: 12
+  }))), _defs$8 || (_defs$8 = /*#__PURE__*/React__namespace.createElement("defs", null, /*#__PURE__*/React__namespace.createElement("filter", {
+    id: "c",
+    width: 24.8,
+    height: 25.8,
+    x: 2.6,
+    y: 2.6,
+    colorInterpolationFilters: "sRGB",
+    filterUnits: "userSpaceOnUse"
+  }, /*#__PURE__*/React__namespace.createElement("feFlood", {
+    floodOpacity: 0,
+    result: "BackgroundImageFix"
+  }), /*#__PURE__*/React__namespace.createElement("feBlend", {
+    "in": "SourceGraphic",
+    in2: "BackgroundImageFix",
+    result: "shape"
+  }), /*#__PURE__*/React__namespace.createElement("feColorMatrix", {
+    "in": "SourceAlpha",
+    result: "hardAlpha",
+    values: "0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+  }), /*#__PURE__*/React__namespace.createElement("feOffset", {
+    dy: 1
+  }), /*#__PURE__*/React__namespace.createElement("feGaussianBlur", {
+    stdDeviation: 2
+  }), /*#__PURE__*/React__namespace.createElement("feComposite", {
+    in2: "hardAlpha",
+    k2: -1,
+    k3: 1,
+    operator: "arithmetic"
+  }), /*#__PURE__*/React__namespace.createElement("feColorMatrix", {
+    values: "0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.05 0"
+  }), /*#__PURE__*/React__namespace.createElement("feBlend", {
+    in2: "shape",
+    result: "effect1_innerShadow_17855_32448"
+  })))));
+};
+var Memo$a = /*#__PURE__*/React.memo(SvgEnUsLight);
 
-var rudark = "data:image/svg+xml,%3Csvg%20width%3D%2230%22%20height%3D%2230%22%20viewBox%3D%220%200%2030%2030%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cg%20clip-path%3D%22url%28%23clip0_17855_32387%29%22%3E%3Cpath%20d%3D%22M30%2015C30%206.71573%2023.2843%200%2015%200C6.71573%200%200%206.71573%200%2015C0%2023.2843%206.71573%2030%2015%2030C23.2843%2030%2030%2023.2843%2030%2015Z%22%20fill%3D%22%232B2B33%22%2F%3E%3Cpath%20d%3D%22M30%2015C30%206.71573%2023.2843%200%2015%200C6.71573%200%200%206.71573%200%2015C0%2023.2843%206.71573%2030%2015%2030C23.2843%2030%2030%2023.2843%2030%2015Z%22%20fill%3D%22%232B2B33%22%2F%3E%3Cpath%20d%3D%22M27%2015C27%208.37258%2021.6274%203%2015%203C8.37258%203%203%208.37258%203%2015C3%2021.6274%208.37258%2027%2015%2027C21.6274%2027%2027%2021.6274%2027%2015Z%22%20stroke%3D%22white%22%20stroke-width%3D%220.8%22%2F%3E%3Cg%20filter%3D%22url%28%23filter0_i_17855_32387%29%22%3E%3Cmask%20id%3D%22mask0_17855_32387%22%20style%3D%22mask-type%3Aalpha%22%20maskUnits%3D%22userSpaceOnUse%22%20x%3D%223%22%20y%3D%223%22%20width%3D%2224%22%20height%3D%2224%22%3E%3Cpath%20d%3D%22M27%2015C27%208.37258%2021.6274%203%2015%203C8.37258%203%203%208.37258%203%2015C3%2021.6274%208.37258%2027%2015%2027C21.6274%2027%2027%2021.6274%2027%2015Z%22%20fill%3D%22white%22%2F%3E%3C%2Fmask%3E%3Cg%20mask%3D%22url%28%23mask0_17855_32387%29%22%3E%3Cpath%20d%3D%22M35%203H-3V11.6421H35V3Z%22%20fill%3D%22white%22%2F%3E%3Cpath%20d%3D%22M35%2011.6421H-3V20.2842H35V11.6421Z%22%20fill%3D%22%2322297E%22%2F%3E%3Cpath%20d%3D%22M35%2020.2842H-3V28.9263H35V20.2842Z%22%20fill%3D%22%23DD2726%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cpath%20d%3D%22M27%2015C27%208.37258%2021.6274%203%2015%203C8.37258%203%203%208.37258%203%2015C3%2021.6274%208.37258%2027%2015%2027C21.6274%2027%2027%2021.6274%2027%2015Z%22%20stroke%3D%22white%22%20stroke-width%3D%220.8%22%2F%3E%3C%2Fg%3E%3Cdefs%3E%3Cfilter%20id%3D%22filter0_i_17855_32387%22%20x%3D%223%22%20y%3D%223%22%20width%3D%2224%22%20height%3D%2225%22%20filterUnits%3D%22userSpaceOnUse%22%20color-interpolation-filters%3D%22sRGB%22%3E%3CfeFlood%20flood-opacity%3D%220%22%20result%3D%22BackgroundImageFix%22%2F%3E%3CfeBlend%20mode%3D%22normal%22%20in%3D%22SourceGraphic%22%20in2%3D%22BackgroundImageFix%22%20result%3D%22shape%22%2F%3E%3CfeColorMatrix%20in%3D%22SourceAlpha%22%20type%3D%22matrix%22%20values%3D%220%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%20127%200%22%20result%3D%22hardAlpha%22%2F%3E%3CfeOffset%20dy%3D%221%22%2F%3E%3CfeGaussianBlur%20stdDeviation%3D%222%22%2F%3E%3CfeComposite%20in2%3D%22hardAlpha%22%20operator%3D%22arithmetic%22%20k2%3D%22-1%22%20k3%3D%221%22%2F%3E%3CfeColorMatrix%20type%3D%22matrix%22%20values%3D%220%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200.05%200%22%2F%3E%3CfeBlend%20mode%3D%22normal%22%20in2%3D%22shape%22%20result%3D%22effect1_innerShadow_17855_32387%22%2F%3E%3C%2Ffilter%3E%3CclipPath%20id%3D%22clip0_17855_32387%22%3E%3Crect%20width%3D%2230%22%20height%3D%2230%22%20fill%3D%22white%22%2F%3E%3C%2FclipPath%3E%3C%2Fdefs%3E%3C%2Fsvg%3E";
+var _g$7, _defs$7;
+function _extends$9() { return _extends$9 = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends$9.apply(null, arguments); }
+var SvgKrDark = function SvgKrDark(props) {
+  return /*#__PURE__*/React__namespace.createElement("svg", _extends$9({
+    xmlns: "http://www.w3.org/2000/svg",
+    fill: "none",
+    viewBox: "0 0 30 30"
+  }, props), _g$7 || (_g$7 = /*#__PURE__*/React__namespace.createElement("g", {
+    clipPath: "url(#a)"
+  }, /*#__PURE__*/React__namespace.createElement("g", {
+    filter: "url(#b)"
+  }, /*#__PURE__*/React__namespace.createElement("path", {
+    fill: "#2B2B33",
+    d: "M30 15c0-8.284-6.716-15-15-15S0 6.716 0 15s6.716 15 15 15 15-6.716 15-15"
+  }), /*#__PURE__*/React__namespace.createElement("path", {
+    fill: "#fff",
+    d: "M27 15c0-6.627-5.373-12-12-12S3 8.373 3 15s5.373 12 12 12 12-5.373 12-12"
+  }), /*#__PURE__*/React__namespace.createElement("g", {
+    filter: "url(#c)"
+  }, /*#__PURE__*/React__namespace.createElement("path", {
+    stroke: "#EAEAEA",
+    strokeWidth: 0.8,
+    d: "M27 15c0-6.627-5.373-12-12-12S3 8.373 3 15s5.373 12 12 12 12-5.373 12-12Z"
+  }))), /*#__PURE__*/React__namespace.createElement("path", {
+    fill: "#000",
+    d: "m5 11 2.667-4 .666.444-2.666 4zm1 .667 2.667-4 .666.444-2.666 4zm1 .666 2.667-4 .666.445-2.666 4zM19.667 20.778l2.666-4 .667.444-2.667 4zm1 .667 2.666-4 .667.444-2.667 4zm1 .666 2.666-4 .667.445-2.667 4z"
+  }), /*#__PURE__*/React__namespace.createElement("path", {
+    fill: "#fff",
+    fillRule: "evenodd",
+    d: "m23.889 20.944-3.334-2.222.223-.333 3.333 2.222z",
+    clipRule: "evenodd"
+  }), /*#__PURE__*/React__namespace.createElement("path", {
+    fill: "#CD2E3A",
+    d: "M11 12.111a4.808 4.808 0 0 1 8 5.333z"
+  }), /*#__PURE__*/React__namespace.createElement("path", {
+    fill: "#0047A0",
+    d: "M11 12.111a4.808 4.808 0 0 0 8 5.333 2.404 2.404 0 0 0-4-2.666z"
+  }), /*#__PURE__*/React__namespace.createElement("path", {
+    fill: "#CD2E3A",
+    d: "M15 14.778a2.404 2.404 0 1 0-4-2.667 2.404 2.404 0 0 0 4 2.667"
+  }), /*#__PURE__*/React__namespace.createElement("path", {
+    fill: "#000",
+    d: "m7.667 22.556-2.667-4 .667-.445 2.666 4zm1-.667-2.667-4 .667-.445 2.666 4zm1-.667-2.667-4 .667-.444 2.666 4zM22.333 12.778l-2.666-4 .666-.445 2.667 4zm1-.667-2.666-4 .666-.444 2.667 4zm1-.667-2.666-4L22.333 7 25 11z"
+  }), /*#__PURE__*/React__namespace.createElement("path", {
+    fill: "#fff",
+    fillRule: "evenodd",
+    d: "m8.278 19.5-1 .667-.222-.334 1-.666zm13.667-9.111-1.167.778-.222-.334 1.166-.777zm2-1.333-1 .666-.223-.333 1-.667z",
+    clipRule: "evenodd"
+  }))), _defs$7 || (_defs$7 = /*#__PURE__*/React__namespace.createElement("defs", null, /*#__PURE__*/React__namespace.createElement("filter", {
+    id: "b",
+    width: 30,
+    height: 31,
+    x: 0,
+    y: 0,
+    colorInterpolationFilters: "sRGB",
+    filterUnits: "userSpaceOnUse"
+  }, /*#__PURE__*/React__namespace.createElement("feFlood", {
+    floodOpacity: 0,
+    result: "BackgroundImageFix"
+  }), /*#__PURE__*/React__namespace.createElement("feBlend", {
+    "in": "SourceGraphic",
+    in2: "BackgroundImageFix",
+    result: "shape"
+  }), /*#__PURE__*/React__namespace.createElement("feColorMatrix", {
+    "in": "SourceAlpha",
+    result: "hardAlpha",
+    values: "0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+  }), /*#__PURE__*/React__namespace.createElement("feOffset", {
+    dy: 1
+  }), /*#__PURE__*/React__namespace.createElement("feGaussianBlur", {
+    stdDeviation: 2
+  }), /*#__PURE__*/React__namespace.createElement("feComposite", {
+    in2: "hardAlpha",
+    k2: -1,
+    k3: 1,
+    operator: "arithmetic"
+  }), /*#__PURE__*/React__namespace.createElement("feColorMatrix", {
+    values: "0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.05 0"
+  }), /*#__PURE__*/React__namespace.createElement("feBlend", {
+    in2: "shape",
+    result: "effect1_innerShadow_17855_32430"
+  })), /*#__PURE__*/React__namespace.createElement("filter", {
+    id: "c",
+    width: 24.8,
+    height: 25.8,
+    x: 2.6,
+    y: 2.6,
+    colorInterpolationFilters: "sRGB",
+    filterUnits: "userSpaceOnUse"
+  }, /*#__PURE__*/React__namespace.createElement("feFlood", {
+    floodOpacity: 0,
+    result: "BackgroundImageFix"
+  }), /*#__PURE__*/React__namespace.createElement("feBlend", {
+    "in": "SourceGraphic",
+    in2: "BackgroundImageFix",
+    result: "shape"
+  }), /*#__PURE__*/React__namespace.createElement("feColorMatrix", {
+    "in": "SourceAlpha",
+    result: "hardAlpha",
+    values: "0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+  }), /*#__PURE__*/React__namespace.createElement("feOffset", {
+    dy: 1
+  }), /*#__PURE__*/React__namespace.createElement("feGaussianBlur", {
+    stdDeviation: 2
+  }), /*#__PURE__*/React__namespace.createElement("feComposite", {
+    in2: "hardAlpha",
+    k2: -1,
+    k3: 1,
+    operator: "arithmetic"
+  }), /*#__PURE__*/React__namespace.createElement("feColorMatrix", {
+    values: "0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.05 0"
+  }), /*#__PURE__*/React__namespace.createElement("feBlend", {
+    in2: "shape",
+    result: "effect1_innerShadow_17855_32430"
+  })), /*#__PURE__*/React__namespace.createElement("clipPath", {
+    id: "a"
+  }, /*#__PURE__*/React__namespace.createElement("path", {
+    fill: "#fff",
+    d: "M0 0h30v30H0z"
+  })))));
+};
+var Memo$9 = /*#__PURE__*/React.memo(SvgKrDark);
 
-var rulight = "data:image/svg+xml,%3Csvg%20width%3D%2230%22%20height%3D%2230%22%20viewBox%3D%220%200%2030%2030%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cg%20clip-path%3D%22url%28%23clip0_17855_32375%29%22%3E%3Cpath%20d%3D%22M30%2015C30%206.71573%2023.2843%200%2015%200C6.71573%200%200%206.71573%200%2015C0%2023.2843%206.71573%2030%2015%2030C23.2843%2030%2030%2023.2843%2030%2015Z%22%20fill%3D%22%23F6F6F6%22%2F%3E%3Cg%20filter%3D%22url%28%23filter0_i_17855_32375%29%22%3E%3Cpath%20d%3D%22M27%2015C27%208.37258%2021.6274%203%2015%203C8.37258%203%203%208.37258%203%2015C3%2021.6274%208.37258%2027%2015%2027C21.6274%2027%2027%2021.6274%2027%2015Z%22%20stroke%3D%22white%22%20stroke-width%3D%220.8%22%2F%3E%3Cmask%20id%3D%22mask0_17855_32375%22%20style%3D%22mask-type%3Aalpha%22%20maskUnits%3D%22userSpaceOnUse%22%20x%3D%223%22%20y%3D%223%22%20width%3D%2224%22%20height%3D%2224%22%3E%3Cpath%20d%3D%22M27%2015C27%208.37258%2021.6274%203%2015%203C8.37258%203%203%208.37258%203%2015C3%2021.6274%208.37258%2027%2015%2027C21.6274%2027%2027%2021.6274%2027%2015Z%22%20fill%3D%22white%22%2F%3E%3C%2Fmask%3E%3Cg%20mask%3D%22url%28%23mask0_17855_32375%29%22%3E%3Cpath%20d%3D%22M35%203H-3V11.6421H35V3Z%22%20fill%3D%22white%22%2F%3E%3Cpath%20d%3D%22M35%2011.6421H-3V20.2842H35V11.6421Z%22%20fill%3D%22%2322297E%22%2F%3E%3Cpath%20d%3D%22M35%2020.2842H-3V28.9263H35V20.2842Z%22%20fill%3D%22%23DD2726%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20filter%3D%22url%28%23filter1_i_17855_32375%29%22%3E%3Cpath%20d%3D%22M27%2015C27%208.37258%2021.6274%203%2015%203C8.37258%203%203%208.37258%203%2015C3%2021.6274%208.37258%2027%2015%2027C21.6274%2027%2027%2021.6274%2027%2015Z%22%20stroke%3D%22%23F4F4F4%22%20stroke-width%3D%220.8%22%2F%3E%3Cpath%20d%3D%22M27%2015C27%208.37258%2021.6274%203%2015%203C8.37258%203%203%208.37258%203%2015C3%2021.6274%208.37258%2027%2015%2027C21.6274%2027%2027%2021.6274%2027%2015Z%22%20stroke%3D%22%23F4F4F4%22%20stroke-width%3D%220.8%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cdefs%3E%3Cfilter%20id%3D%22filter0_i_17855_32375%22%20x%3D%222.60001%22%20y%3D%222.6%22%20width%3D%2224.8%22%20height%3D%2225.8%22%20filterUnits%3D%22userSpaceOnUse%22%20color-interpolation-filters%3D%22sRGB%22%3E%3CfeFlood%20flood-opacity%3D%220%22%20result%3D%22BackgroundImageFix%22%2F%3E%3CfeBlend%20mode%3D%22normal%22%20in%3D%22SourceGraphic%22%20in2%3D%22BackgroundImageFix%22%20result%3D%22shape%22%2F%3E%3CfeColorMatrix%20in%3D%22SourceAlpha%22%20type%3D%22matrix%22%20values%3D%220%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%20127%200%22%20result%3D%22hardAlpha%22%2F%3E%3CfeOffset%20dy%3D%221%22%2F%3E%3CfeGaussianBlur%20stdDeviation%3D%222%22%2F%3E%3CfeComposite%20in2%3D%22hardAlpha%22%20operator%3D%22arithmetic%22%20k2%3D%22-1%22%20k3%3D%221%22%2F%3E%3CfeColorMatrix%20type%3D%22matrix%22%20values%3D%220%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200.05%200%22%2F%3E%3CfeBlend%20mode%3D%22normal%22%20in2%3D%22shape%22%20result%3D%22effect1_innerShadow_17855_32375%22%2F%3E%3C%2Ffilter%3E%3Cfilter%20id%3D%22filter1_i_17855_32375%22%20x%3D%222.60001%22%20y%3D%222.6%22%20width%3D%2224.8%22%20height%3D%2225.8%22%20filterUnits%3D%22userSpaceOnUse%22%20color-interpolation-filters%3D%22sRGB%22%3E%3CfeFlood%20flood-opacity%3D%220%22%20result%3D%22BackgroundImageFix%22%2F%3E%3CfeBlend%20mode%3D%22normal%22%20in%3D%22SourceGraphic%22%20in2%3D%22BackgroundImageFix%22%20result%3D%22shape%22%2F%3E%3CfeColorMatrix%20in%3D%22SourceAlpha%22%20type%3D%22matrix%22%20values%3D%220%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%20127%200%22%20result%3D%22hardAlpha%22%2F%3E%3CfeOffset%20dy%3D%221%22%2F%3E%3CfeGaussianBlur%20stdDeviation%3D%222%22%2F%3E%3CfeComposite%20in2%3D%22hardAlpha%22%20operator%3D%22arithmetic%22%20k2%3D%22-1%22%20k3%3D%221%22%2F%3E%3CfeColorMatrix%20type%3D%22matrix%22%20values%3D%220%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200.05%200%22%2F%3E%3CfeBlend%20mode%3D%22normal%22%20in2%3D%22shape%22%20result%3D%22effect1_innerShadow_17855_32375%22%2F%3E%3C%2Ffilter%3E%3CclipPath%20id%3D%22clip0_17855_32375%22%3E%3Crect%20width%3D%2230%22%20height%3D%2230%22%20fill%3D%22white%22%2F%3E%3C%2FclipPath%3E%3C%2Fdefs%3E%3C%2Fsvg%3E";
+var _g$6, _defs$6;
+function _extends$8() { return _extends$8 = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends$8.apply(null, arguments); }
+var SvgKrLight = function SvgKrLight(props) {
+  return /*#__PURE__*/React__namespace.createElement("svg", _extends$8({
+    xmlns: "http://www.w3.org/2000/svg",
+    fill: "none",
+    viewBox: "0 0 30 30"
+  }, props), _g$6 || (_g$6 = /*#__PURE__*/React__namespace.createElement("g", {
+    clipPath: "url(#a)"
+  }, /*#__PURE__*/React__namespace.createElement("path", {
+    fill: "#F6F6F6",
+    d: "M30 15c0-8.284-6.716-15-15-15S0 6.716 0 15s6.716 15 15 15 15-6.716 15-15"
+  }), /*#__PURE__*/React__namespace.createElement("path", {
+    fill: "#fff",
+    d: "M27 15c0-6.627-5.373-12-12-12S3 8.373 3 15s5.373 12 12 12 12-5.373 12-12"
+  }), /*#__PURE__*/React__namespace.createElement("path", {
+    stroke: "#EAEAEA",
+    strokeWidth: 0.8,
+    d: "M27 15c0-6.627-5.373-12-12-12S3 8.373 3 15s5.373 12 12 12 12-5.373 12-12Z"
+  }), /*#__PURE__*/React__namespace.createElement("path", {
+    fill: "#000",
+    d: "m5 11 2.667-4 .666.444-2.666 4zm1 .667 2.667-4 .666.444-2.666 4zm1 .666 2.667-4 .666.445-2.666 4zM19.667 20.778l2.666-4 .667.444-2.667 4zm1 .667 2.666-4 .667.444-2.667 4zm1 .666 2.666-4 .667.445-2.667 4z"
+  }), /*#__PURE__*/React__namespace.createElement("path", {
+    fill: "#fff",
+    fillRule: "evenodd",
+    d: "m23.889 20.944-3.334-2.222.223-.333 3.333 2.222z",
+    clipRule: "evenodd"
+  }), /*#__PURE__*/React__namespace.createElement("path", {
+    fill: "#CD2E3A",
+    d: "M11 12.111a4.808 4.808 0 0 1 8 5.333z"
+  }), /*#__PURE__*/React__namespace.createElement("path", {
+    fill: "#0047A0",
+    d: "M11 12.111a4.808 4.808 0 0 0 8 5.333 2.404 2.404 0 0 0-4-2.666z"
+  }), /*#__PURE__*/React__namespace.createElement("path", {
+    fill: "#CD2E3A",
+    d: "M15 14.778a2.404 2.404 0 1 0-4-2.667 2.404 2.404 0 0 0 4 2.667"
+  }), /*#__PURE__*/React__namespace.createElement("path", {
+    fill: "#000",
+    d: "m7.667 22.556-2.667-4 .667-.445 2.666 4zm1-.667-2.667-4 .667-.445 2.666 4zm1-.667-2.667-4 .667-.444 2.666 4zM22.333 12.778l-2.666-4 .666-.445 2.667 4zm1-.667-2.666-4 .666-.444 2.667 4zm1-.667-2.666-4L22.333 7 25 11z"
+  }), /*#__PURE__*/React__namespace.createElement("path", {
+    fill: "#fff",
+    fillRule: "evenodd",
+    d: "m8.278 19.5-1 .667-.222-.334 1-.666zm13.667-9.111-1.167.778-.222-.334 1.166-.777zm2-1.333-1 .666-.223-.333 1-.667z",
+    clipRule: "evenodd"
+  }))), _defs$6 || (_defs$6 = /*#__PURE__*/React__namespace.createElement("defs", null, /*#__PURE__*/React__namespace.createElement("clipPath", {
+    id: "a"
+  }, /*#__PURE__*/React__namespace.createElement("path", {
+    fill: "#fff",
+    d: "M0 0h30v30H0z"
+  })))));
+};
+var Memo$8 = /*#__PURE__*/React.memo(SvgKrLight);
 
-var ukdark = "data:image/svg+xml,%3Csvg%20width%3D%2230%22%20height%3D%2230%22%20viewBox%3D%220%200%2030%2030%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cg%20clip-path%3D%22url%28%23clip0_17287_32498%29%22%3E%3Cpath%20d%3D%22M30%2015C30%206.71573%2023.2843%200%2015%200C6.71573%200%200%206.71573%200%2015C0%2023.2843%206.71573%2030%2015%2030C23.2843%2030%2030%2023.2843%2030%2015Z%22%20fill%3D%22%232B2B33%22%2F%3E%3Cpath%20d%3D%22M30%2015C30%206.71573%2023.2843%200%2015%200C6.71573%200%200%206.71573%200%2015C0%2023.2843%206.71573%2030%2015%2030C23.2843%2030%2030%2023.2843%2030%2015Z%22%20fill%3D%22%232B2B33%22%2F%3E%3Cpath%20d%3D%22M27%2015C27%208.37258%2021.6274%203%2015%203C8.37258%203%203%208.37258%203%2015C3%2021.6274%208.37258%2027%2015%2027C21.6274%2027%2027%2021.6274%2027%2015Z%22%20stroke%3D%22white%22%20stroke-width%3D%220.8%22%2F%3E%3Cmask%20id%3D%22mask0_17287_32498%22%20style%3D%22mask-type%3Aalpha%22%20maskUnits%3D%22userSpaceOnUse%22%20x%3D%223%22%20y%3D%223%22%20width%3D%2224%22%20height%3D%2224%22%3E%3Cpath%20d%3D%22M27%2015C27%2021.6274%2021.6274%2027%2015%2027C8.37258%2027%202.99999%2021.6274%202.99999%2015C2.99999%208.37258%208.37258%203%2015%203C21.6274%203%2027%208.37258%2027%2015Z%22%20fill%3D%22%23CCCCCC%22%2F%3E%3C%2Fmask%3E%3Cg%20mask%3D%22url%28%23mask0_17287_32498%29%22%3E%3Crect%20width%3D%2227.5%22%20height%3D%2213.75%22%20transform%3D%22matrix%281%200%200%20-1%201.25%2015%29%22%20fill%3D%22%23005BBB%22%2F%3E%3Crect%20width%3D%2227.5%22%20height%3D%2213.75%22%20transform%3D%22matrix%281%200%200%20-1%201.25%2028.75%29%22%20fill%3D%22%23FFD500%22%2F%3E%3C%2Fg%3E%3Cpath%20d%3D%22M27%2015C27%208.37258%2021.6274%203%2015%203C8.37258%203%202.99999%208.37258%202.99999%2015C2.99999%2021.6274%208.37258%2027%2015%2027C21.6274%2027%2027%2021.6274%2027%2015Z%22%20stroke%3D%22white%22%20stroke-width%3D%220.8%22%2F%3E%3C%2Fg%3E%3Cdefs%3E%3CclipPath%20id%3D%22clip0_17287_32498%22%3E%3Crect%20width%3D%2230%22%20height%3D%2230%22%20fill%3D%22white%22%2F%3E%3C%2FclipPath%3E%3C%2Fdefs%3E%3C%2Fsvg%3E";
+var _path$5, _path2$4, _path3$3, _path4$1, _g$5, _path5$1, _defs$5;
+function _extends$7() { return _extends$7 = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends$7.apply(null, arguments); }
+var SvgRussianDark = function SvgRussianDark(props) {
+  return /*#__PURE__*/React__namespace.createElement("svg", _extends$7({
+    xmlns: "http://www.w3.org/2000/svg",
+    fill: "none",
+    viewBox: "0 0 30 30"
+  }, props), /*#__PURE__*/React__namespace.createElement("g", {
+    clipPath: "url(#a)"
+  }, _path$5 || (_path$5 = /*#__PURE__*/React__namespace.createElement("path", {
+    fill: "#2B2B33",
+    d: "M30 15c0-8.284-6.716-15-15-15S0 6.716 0 15s6.716 15 15 15 15-6.716 15-15"
+  })), _path2$4 || (_path2$4 = /*#__PURE__*/React__namespace.createElement("path", {
+    fill: "#2B2B33",
+    d: "M30 15c0-8.284-6.716-15-15-15S0 6.716 0 15s6.716 15 15 15 15-6.716 15-15"
+  })), _path3$3 || (_path3$3 = /*#__PURE__*/React__namespace.createElement("path", {
+    stroke: "#fff",
+    strokeWidth: 0.8,
+    d: "M27 15c0-6.627-5.373-12-12-12S3 8.373 3 15s5.373 12 12 12 12-5.373 12-12Z"
+  })), /*#__PURE__*/React__namespace.createElement("g", {
+    filter: "url(#b)"
+  }, /*#__PURE__*/React__namespace.createElement("mask", {
+    id: "c",
+    width: 24,
+    height: 24,
+    x: 3,
+    y: 3,
+    maskUnits: "userSpaceOnUse",
+    style: {
+      maskType: "alpha"
+    }
+  }, _path4$1 || (_path4$1 = /*#__PURE__*/React__namespace.createElement("path", {
+    fill: "#fff",
+    d: "M27 15c0-6.627-5.373-12-12-12S3 8.373 3 15s5.373 12 12 12 12-5.373 12-12"
+  }))), _g$5 || (_g$5 = /*#__PURE__*/React__namespace.createElement("g", {
+    mask: "url(#c)"
+  }, /*#__PURE__*/React__namespace.createElement("path", {
+    fill: "#fff",
+    d: "M35 3H-3v8.642h38z"
+  }), /*#__PURE__*/React__namespace.createElement("path", {
+    fill: "#22297E",
+    d: "M35 11.642H-3v8.642h38z"
+  }), /*#__PURE__*/React__namespace.createElement("path", {
+    fill: "#DD2726",
+    d: "M35 20.284H-3v8.642h38z"
+  })))), _path5$1 || (_path5$1 = /*#__PURE__*/React__namespace.createElement("path", {
+    stroke: "#fff",
+    strokeWidth: 0.8,
+    d: "M27 15c0-6.627-5.373-12-12-12S3 8.373 3 15s5.373 12 12 12 12-5.373 12-12Z"
+  }))), _defs$5 || (_defs$5 = /*#__PURE__*/React__namespace.createElement("defs", null, /*#__PURE__*/React__namespace.createElement("clipPath", {
+    id: "a"
+  }, /*#__PURE__*/React__namespace.createElement("path", {
+    fill: "#fff",
+    d: "M0 0h30v30H0z"
+  })), /*#__PURE__*/React__namespace.createElement("filter", {
+    id: "b",
+    width: 24,
+    height: 25,
+    x: 3,
+    y: 3,
+    colorInterpolationFilters: "sRGB",
+    filterUnits: "userSpaceOnUse"
+  }, /*#__PURE__*/React__namespace.createElement("feFlood", {
+    floodOpacity: 0,
+    result: "BackgroundImageFix"
+  }), /*#__PURE__*/React__namespace.createElement("feBlend", {
+    "in": "SourceGraphic",
+    in2: "BackgroundImageFix",
+    result: "shape"
+  }), /*#__PURE__*/React__namespace.createElement("feColorMatrix", {
+    "in": "SourceAlpha",
+    result: "hardAlpha",
+    values: "0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+  }), /*#__PURE__*/React__namespace.createElement("feOffset", {
+    dy: 1
+  }), /*#__PURE__*/React__namespace.createElement("feGaussianBlur", {
+    stdDeviation: 2
+  }), /*#__PURE__*/React__namespace.createElement("feComposite", {
+    in2: "hardAlpha",
+    k2: -1,
+    k3: 1,
+    operator: "arithmetic"
+  }), /*#__PURE__*/React__namespace.createElement("feColorMatrix", {
+    values: "0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.05 0"
+  }), /*#__PURE__*/React__namespace.createElement("feBlend", {
+    in2: "shape",
+    result: "effect1_innerShadow_17855_32387"
+  })))));
+};
+var Memo$7 = /*#__PURE__*/React.memo(SvgRussianDark);
 
-var uklight = "data:image/svg+xml,%3Csvg%20width%3D%2230%22%20height%3D%2230%22%20viewBox%3D%220%200%2030%2030%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cg%20clip-path%3D%22url%28%23clip0_17287_32482%29%22%3E%3Cpath%20d%3D%22M30%2015C30%206.71573%2023.2843%200%2015%200C6.71573%200%200%206.71573%200%2015C0%2023.2843%206.71573%2030%2015%2030C23.2843%2030%2030%2023.2843%2030%2015Z%22%20fill%3D%22%23F6F6F6%22%2F%3E%3Cg%20filter%3D%22url%28%23filter0_i_17287_32482%29%22%3E%3Cpath%20d%3D%22M27%2015C27%208.37258%2021.6274%203%2015%203C8.37258%203%203%208.37258%203%2015C3%2021.6274%208.37258%2027%2015%2027C21.6274%2027%2027%2021.6274%2027%2015Z%22%20stroke%3D%22white%22%20stroke-width%3D%220.8%22%2F%3E%3Cmask%20id%3D%22mask0_17287_32482%22%20style%3D%22mask-type%3Aalpha%22%20maskUnits%3D%22userSpaceOnUse%22%20x%3D%223%22%20y%3D%223%22%20width%3D%2224%22%20height%3D%2224%22%3E%3Cpath%20d%3D%22M27%2015C27%208.37258%2021.6274%203%2015%203C8.37258%203%203%208.37258%203%2015C3%2021.6274%208.37258%2027%2015%2027C21.6274%2027%2027%2021.6274%2027%2015Z%22%20fill%3D%22white%22%2F%3E%3C%2Fmask%3E%3Cg%20mask%3D%22url%28%23mask0_17287_32482%29%22%3E%3Cpath%20d%3D%22M35%203H-3V11.6421H35V3Z%22%20fill%3D%22white%22%2F%3E%3Cpath%20d%3D%22M35%2011.6421H-3V20.2842H35V11.6421Z%22%20fill%3D%22%2322297E%22%2F%3E%3Cpath%20d%3D%22M35%2020.2842H-3V28.9263H35V20.2842Z%22%20fill%3D%22%23DD2726%22%2F%3E%3Crect%20x%3D%22-3.74999%22%20width%3D%2241.25%22%20height%3D%2215%22%20fill%3D%22%23005BBB%22%2F%3E%3Crect%20x%3D%22-3.74999%22%20y%3D%2215.075%22%20width%3D%2241.4232%22%20height%3D%2213.825%22%20fill%3D%22%23FFD500%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20filter%3D%22url%28%23filter1_i_17287_32482%29%22%3E%3Cpath%20d%3D%22M27%2015C27%208.37258%2021.6274%203%2015%203C8.37258%203%203%208.37258%203%2015C3%2021.6274%208.37258%2027%2015%2027C21.6274%2027%2027%2021.6274%2027%2015Z%22%20stroke%3D%22%23F4F4F4%22%20stroke-width%3D%220.8%22%2F%3E%3Cpath%20d%3D%22M27%2015C27%208.37258%2021.6274%203%2015%203C8.37258%203%203%208.37258%203%2015C3%2021.6274%208.37258%2027%2015%2027C21.6274%2027%2027%2021.6274%2027%2015Z%22%20stroke%3D%22%23F4F4F4%22%20stroke-width%3D%220.8%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cdefs%3E%3Cfilter%20id%3D%22filter0_i_17287_32482%22%20x%3D%222.6%22%20y%3D%222.6%22%20width%3D%2224.8%22%20height%3D%2225.8%22%20filterUnits%3D%22userSpaceOnUse%22%20color-interpolation-filters%3D%22sRGB%22%3E%3CfeFlood%20flood-opacity%3D%220%22%20result%3D%22BackgroundImageFix%22%2F%3E%3CfeBlend%20mode%3D%22normal%22%20in%3D%22SourceGraphic%22%20in2%3D%22BackgroundImageFix%22%20result%3D%22shape%22%2F%3E%3CfeColorMatrix%20in%3D%22SourceAlpha%22%20type%3D%22matrix%22%20values%3D%220%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%20127%200%22%20result%3D%22hardAlpha%22%2F%3E%3CfeOffset%20dy%3D%221%22%2F%3E%3CfeGaussianBlur%20stdDeviation%3D%222%22%2F%3E%3CfeComposite%20in2%3D%22hardAlpha%22%20operator%3D%22arithmetic%22%20k2%3D%22-1%22%20k3%3D%221%22%2F%3E%3CfeColorMatrix%20type%3D%22matrix%22%20values%3D%220%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200.05%200%22%2F%3E%3CfeBlend%20mode%3D%22normal%22%20in2%3D%22shape%22%20result%3D%22effect1_innerShadow_17287_32482%22%2F%3E%3C%2Ffilter%3E%3Cfilter%20id%3D%22filter1_i_17287_32482%22%20x%3D%222.6%22%20y%3D%222.6%22%20width%3D%2224.8%22%20height%3D%2225.8%22%20filterUnits%3D%22userSpaceOnUse%22%20color-interpolation-filters%3D%22sRGB%22%3E%3CfeFlood%20flood-opacity%3D%220%22%20result%3D%22BackgroundImageFix%22%2F%3E%3CfeBlend%20mode%3D%22normal%22%20in%3D%22SourceGraphic%22%20in2%3D%22BackgroundImageFix%22%20result%3D%22shape%22%2F%3E%3CfeColorMatrix%20in%3D%22SourceAlpha%22%20type%3D%22matrix%22%20values%3D%220%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%20127%200%22%20result%3D%22hardAlpha%22%2F%3E%3CfeOffset%20dy%3D%221%22%2F%3E%3CfeGaussianBlur%20stdDeviation%3D%222%22%2F%3E%3CfeComposite%20in2%3D%22hardAlpha%22%20operator%3D%22arithmetic%22%20k2%3D%22-1%22%20k3%3D%221%22%2F%3E%3CfeColorMatrix%20type%3D%22matrix%22%20values%3D%220%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200.05%200%22%2F%3E%3CfeBlend%20mode%3D%22normal%22%20in2%3D%22shape%22%20result%3D%22effect1_innerShadow_17287_32482%22%2F%3E%3C%2Ffilter%3E%3CclipPath%20id%3D%22clip0_17287_32482%22%3E%3Crect%20width%3D%2230%22%20height%3D%2230%22%20fill%3D%22white%22%2F%3E%3C%2FclipPath%3E%3C%2Fdefs%3E%3C%2Fsvg%3E";
+var _path$4, _path2$3, _path3$2, _g$4, _g2$1, _defs$4;
+function _extends$6() { return _extends$6 = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends$6.apply(null, arguments); }
+var SvgRussianLight = function SvgRussianLight(props) {
+  return /*#__PURE__*/React__namespace.createElement("svg", _extends$6({
+    xmlns: "http://www.w3.org/2000/svg",
+    fill: "none",
+    viewBox: "0 0 30 30"
+  }, props), /*#__PURE__*/React__namespace.createElement("g", {
+    clipPath: "url(#a)"
+  }, _path$4 || (_path$4 = /*#__PURE__*/React__namespace.createElement("path", {
+    fill: "#F6F6F6",
+    d: "M30 15c0-8.284-6.716-15-15-15S0 6.716 0 15s6.716 15 15 15 15-6.716 15-15"
+  })), /*#__PURE__*/React__namespace.createElement("g", {
+    filter: "url(#b)"
+  }, _path2$3 || (_path2$3 = /*#__PURE__*/React__namespace.createElement("path", {
+    stroke: "#fff",
+    strokeWidth: 0.8,
+    d: "M27 15c0-6.627-5.373-12-12-12S3 8.373 3 15s5.373 12 12 12 12-5.373 12-12Z"
+  })), /*#__PURE__*/React__namespace.createElement("mask", {
+    id: "c",
+    width: 24,
+    height: 24,
+    x: 3,
+    y: 3,
+    maskUnits: "userSpaceOnUse",
+    style: {
+      maskType: "alpha"
+    }
+  }, _path3$2 || (_path3$2 = /*#__PURE__*/React__namespace.createElement("path", {
+    fill: "#fff",
+    d: "M27 15c0-6.627-5.373-12-12-12S3 8.373 3 15s5.373 12 12 12 12-5.373 12-12"
+  }))), _g$4 || (_g$4 = /*#__PURE__*/React__namespace.createElement("g", {
+    mask: "url(#c)"
+  }, /*#__PURE__*/React__namespace.createElement("path", {
+    fill: "#fff",
+    d: "M35 3H-3v8.642h38z"
+  }), /*#__PURE__*/React__namespace.createElement("path", {
+    fill: "#22297E",
+    d: "M35 11.642H-3v8.642h38z"
+  }), /*#__PURE__*/React__namespace.createElement("path", {
+    fill: "#DD2726",
+    d: "M35 20.284H-3v8.642h38z"
+  })))), _g2$1 || (_g2$1 = /*#__PURE__*/React__namespace.createElement("g", {
+    stroke: "#F4F4F4",
+    strokeWidth: 0.8,
+    filter: "url(#d)"
+  }, /*#__PURE__*/React__namespace.createElement("path", {
+    d: "M27 15c0-6.627-5.373-12-12-12S3 8.373 3 15s5.373 12 12 12 12-5.373 12-12Z"
+  }), /*#__PURE__*/React__namespace.createElement("path", {
+    d: "M27 15c0-6.627-5.373-12-12-12S3 8.373 3 15s5.373 12 12 12 12-5.373 12-12Z"
+  })))), _defs$4 || (_defs$4 = /*#__PURE__*/React__namespace.createElement("defs", null, /*#__PURE__*/React__namespace.createElement("filter", {
+    id: "b",
+    width: 24.8,
+    height: 25.8,
+    x: 2.6,
+    y: 2.6,
+    colorInterpolationFilters: "sRGB",
+    filterUnits: "userSpaceOnUse"
+  }, /*#__PURE__*/React__namespace.createElement("feFlood", {
+    floodOpacity: 0,
+    result: "BackgroundImageFix"
+  }), /*#__PURE__*/React__namespace.createElement("feBlend", {
+    "in": "SourceGraphic",
+    in2: "BackgroundImageFix",
+    result: "shape"
+  }), /*#__PURE__*/React__namespace.createElement("feColorMatrix", {
+    "in": "SourceAlpha",
+    result: "hardAlpha",
+    values: "0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+  }), /*#__PURE__*/React__namespace.createElement("feOffset", {
+    dy: 1
+  }), /*#__PURE__*/React__namespace.createElement("feGaussianBlur", {
+    stdDeviation: 2
+  }), /*#__PURE__*/React__namespace.createElement("feComposite", {
+    in2: "hardAlpha",
+    k2: -1,
+    k3: 1,
+    operator: "arithmetic"
+  }), /*#__PURE__*/React__namespace.createElement("feColorMatrix", {
+    values: "0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.05 0"
+  }), /*#__PURE__*/React__namespace.createElement("feBlend", {
+    in2: "shape",
+    result: "effect1_innerShadow_17855_32375"
+  })), /*#__PURE__*/React__namespace.createElement("filter", {
+    id: "d",
+    width: 24.8,
+    height: 25.8,
+    x: 2.6,
+    y: 2.6,
+    colorInterpolationFilters: "sRGB",
+    filterUnits: "userSpaceOnUse"
+  }, /*#__PURE__*/React__namespace.createElement("feFlood", {
+    floodOpacity: 0,
+    result: "BackgroundImageFix"
+  }), /*#__PURE__*/React__namespace.createElement("feBlend", {
+    "in": "SourceGraphic",
+    in2: "BackgroundImageFix",
+    result: "shape"
+  }), /*#__PURE__*/React__namespace.createElement("feColorMatrix", {
+    "in": "SourceAlpha",
+    result: "hardAlpha",
+    values: "0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+  }), /*#__PURE__*/React__namespace.createElement("feOffset", {
+    dy: 1
+  }), /*#__PURE__*/React__namespace.createElement("feGaussianBlur", {
+    stdDeviation: 2
+  }), /*#__PURE__*/React__namespace.createElement("feComposite", {
+    in2: "hardAlpha",
+    k2: -1,
+    k3: 1,
+    operator: "arithmetic"
+  }), /*#__PURE__*/React__namespace.createElement("feColorMatrix", {
+    values: "0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.05 0"
+  }), /*#__PURE__*/React__namespace.createElement("feBlend", {
+    in2: "shape",
+    result: "effect1_innerShadow_17855_32375"
+  })), /*#__PURE__*/React__namespace.createElement("clipPath", {
+    id: "a"
+  }, /*#__PURE__*/React__namespace.createElement("path", {
+    fill: "#fff",
+    d: "M0 0h30v30H0z"
+  })))));
+};
+var Memo$6 = /*#__PURE__*/React.memo(SvgRussianLight);
 
-var zhdark = "data:image/svg+xml,%3Csvg%20width%3D%2230%22%20height%3D%2230%22%20viewBox%3D%220%200%2030%2030%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cg%20clip-path%3D%22url%28%23clip0_17855_32405%29%22%3E%3Cpath%20d%3D%22M30%2015C30%206.71573%2023.2843%200%2015%200C6.71573%200%200%206.71573%200%2015C0%2023.2843%206.71573%2030%2015%2030C23.2843%2030%2030%2023.2843%2030%2015Z%22%20fill%3D%22%232B2B33%22%2F%3E%3Cpath%20d%3D%22M27%2015C27%208.37258%2021.6274%203%2015%203C8.37258%203%203%208.37258%203%2015C3%2021.6274%208.37258%2027%2015%2027C21.6274%2027%2027%2021.6274%2027%2015Z%22%20fill%3D%22%23FF0000%22%2F%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M11.534%209.08045L12.9586%2012.1175L16.1469%2012.6054L13.8394%2014.9692L14.3856%2018.3087L11.534%2016.7328L8.67996%2018.3087L9.22644%2014.9692L6.91869%2012.6054L10.107%2012.1175L11.534%209.08045ZM23.126%2016.0619L23.5285%2016.9182L24.4286%2017.0548L23.7774%2017.7208L23.9309%2018.6623L23.126%2018.2184L22.3234%2018.6623L22.4772%2017.7208L21.8258%2017.0548L22.7259%2016.9182L23.126%2016.0619ZM20.0819%207.99731L20.1208%208.94388L20.8966%209.41705L20.0403%209.78301L19.816%2010.71L19.2475%209.98794L18.3327%2010.088L18.8378%209.27798L18.4963%208.41206L19.3794%208.63402L20.0819%207.99731ZM24.2333%2011.8272L23.7162%2012.6201L24.0724%2013.4568L23.1651%2013.2542L22.4453%2013.8812L22.399%2012.9616L21.5964%2012.5128L22.4795%2012.1469L22.704%2011.2443L23.2942%2011.9345L24.2333%2011.8272ZM21.1163%2021.0701L20.2478%2021.4456L20.082%2022.341L19.4355%2021.6701L18.4889%2021.792L18.9574%2021.0041L18.5403%2020.1845L19.4746%2020.3676L20.1625%2019.738L20.2721%2020.6407L21.1163%2021.0701Z%22%20fill%3D%22%23FFFF00%22%2F%3E%3Cpath%20d%3D%22M27%2015C27%208.37258%2021.6274%203%2015%203C8.37258%203%203%208.37258%203%2015C3%2021.6274%208.37258%2027%2015%2027C21.6274%2027%2027%2021.6274%2027%2015Z%22%20stroke%3D%22%23EAEAEA%22%20stroke-width%3D%220.8%22%2F%3E%3C%2Fg%3E%3Cdefs%3E%3CclipPath%20id%3D%22clip0_17855_32405%22%3E%3Crect%20width%3D%2230%22%20height%3D%2230%22%20fill%3D%22white%22%2F%3E%3C%2FclipPath%3E%3C%2Fdefs%3E%3C%2Fsvg%3E";
+var _path$3, _path2$2, _path3$1, _path4, _g$3, _path5, _defs$3;
+function _extends$5() { return _extends$5 = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends$5.apply(null, arguments); }
+var SvgUkUaDark = function SvgUkUaDark(props) {
+  return /*#__PURE__*/React__namespace.createElement("svg", _extends$5({
+    xmlns: "http://www.w3.org/2000/svg",
+    fill: "none",
+    viewBox: "0 0 30 30"
+  }, props), /*#__PURE__*/React__namespace.createElement("g", {
+    clipPath: "url(#a)"
+  }, _path$3 || (_path$3 = /*#__PURE__*/React__namespace.createElement("path", {
+    fill: "#2B2B33",
+    d: "M30 15c0-8.284-6.716-15-15-15S0 6.716 0 15s6.716 15 15 15 15-6.716 15-15"
+  })), _path2$2 || (_path2$2 = /*#__PURE__*/React__namespace.createElement("path", {
+    fill: "#2B2B33",
+    d: "M30 15c0-8.284-6.716-15-15-15S0 6.716 0 15s6.716 15 15 15 15-6.716 15-15"
+  })), _path3$1 || (_path3$1 = /*#__PURE__*/React__namespace.createElement("path", {
+    stroke: "#fff",
+    strokeWidth: 0.8,
+    d: "M27 15c0-6.627-5.373-12-12-12S3 8.373 3 15s5.373 12 12 12 12-5.373 12-12Z"
+  })), /*#__PURE__*/React__namespace.createElement("mask", {
+    id: "b",
+    width: 24,
+    height: 24,
+    x: 3,
+    y: 3,
+    maskUnits: "userSpaceOnUse",
+    style: {
+      maskType: "alpha"
+    }
+  }, _path4 || (_path4 = /*#__PURE__*/React__namespace.createElement("path", {
+    fill: "#CCC",
+    d: "M27 15c0 6.627-5.373 12-12 12S3 21.627 3 15 8.373 3 15 3s12 5.373 12 12"
+  }))), _g$3 || (_g$3 = /*#__PURE__*/React__namespace.createElement("g", {
+    mask: "url(#b)"
+  }, /*#__PURE__*/React__namespace.createElement("path", {
+    fill: "#005BBB",
+    d: "M1.25 15h27.5V1.25H1.25z"
+  }), /*#__PURE__*/React__namespace.createElement("path", {
+    fill: "#FFD500",
+    d: "M1.25 28.75h27.5V15H1.25z"
+  }))), _path5 || (_path5 = /*#__PURE__*/React__namespace.createElement("path", {
+    stroke: "#fff",
+    strokeWidth: 0.8,
+    d: "M27 15c0-6.627-5.373-12-12-12S3 8.373 3 15s5.373 12 12 12 12-5.373 12-12Z"
+  }))), _defs$3 || (_defs$3 = /*#__PURE__*/React__namespace.createElement("defs", null, /*#__PURE__*/React__namespace.createElement("clipPath", {
+    id: "a"
+  }, /*#__PURE__*/React__namespace.createElement("path", {
+    fill: "#fff",
+    d: "M0 0h30v30H0z"
+  })))));
+};
+var Memo$5 = /*#__PURE__*/React.memo(SvgUkUaDark);
 
-var zhlight = "data:image/svg+xml,%3Csvg%20width%3D%2230%22%20height%3D%2230%22%20viewBox%3D%220%200%2030%2030%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cg%20clip-path%3D%22url%28%23clip0_17855_32398%29%22%3E%3Cpath%20d%3D%22M30%2015C30%206.71573%2023.2843%200%2015%200C6.71573%200%200%206.71573%200%2015C0%2023.2843%206.71573%2030%2015%2030C23.2843%2030%2030%2023.2843%2030%2015Z%22%20fill%3D%22%23F6F6F6%22%2F%3E%3Cpath%20d%3D%22M27%2015C27%208.37258%2021.6274%203%2015%203C8.37258%203%203%208.37258%203%2015C3%2021.6274%208.37258%2027%2015%2027C21.6274%2027%2027%2021.6274%2027%2015Z%22%20fill%3D%22%23FF0000%22%2F%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M11.534%209.08045L12.9586%2012.1175L16.1469%2012.6054L13.8394%2014.9692L14.3856%2018.3087L11.534%2016.7328L8.67996%2018.3087L9.22644%2014.9692L6.91869%2012.6054L10.107%2012.1175L11.534%209.08045ZM23.126%2016.0619L23.5285%2016.9182L24.4286%2017.0548L23.7774%2017.7208L23.9309%2018.6623L23.126%2018.2184L22.3234%2018.6623L22.4772%2017.7208L21.8258%2017.0548L22.7259%2016.9182L23.126%2016.0619ZM20.0819%207.99731L20.1208%208.94388L20.8966%209.41705L20.0403%209.78301L19.816%2010.71L19.2475%209.98794L18.3327%2010.088L18.8378%209.27798L18.4963%208.41206L19.3794%208.63402L20.0819%207.99731ZM24.2333%2011.8272L23.7162%2012.6201L24.0724%2013.4568L23.1651%2013.2542L22.4453%2013.8812L22.399%2012.9616L21.5964%2012.5128L22.4795%2012.1469L22.704%2011.2443L23.2942%2011.9345L24.2333%2011.8272ZM21.1163%2021.0701L20.2478%2021.4456L20.082%2022.341L19.4355%2021.6701L18.4889%2021.792L18.9574%2021.0041L18.5403%2020.1845L19.4746%2020.3676L20.1625%2019.738L20.2721%2020.6407L21.1163%2021.0701Z%22%20fill%3D%22%23FFFF00%22%2F%3E%3Cpath%20d%3D%22M27%2015C27%208.37258%2021.6274%203%2015%203C8.37258%203%203%208.37258%203%2015C3%2021.6274%208.37258%2027%2015%2027C21.6274%2027%2027%2021.6274%2027%2015Z%22%20stroke%3D%22%23EAEAEA%22%20stroke-width%3D%220.8%22%2F%3E%3C%2Fg%3E%3Cdefs%3E%3CclipPath%20id%3D%22clip0_17855_32398%22%3E%3Crect%20width%3D%2230%22%20height%3D%2230%22%20fill%3D%22white%22%2F%3E%3C%2FclipPath%3E%3C%2Fdefs%3E%3C%2Fsvg%3E";
+var _path$2, _path2$1, _path3, _g$2, _g2, _defs$2;
+function _extends$4() { return _extends$4 = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends$4.apply(null, arguments); }
+var SvgUkUaLight = function SvgUkUaLight(props) {
+  return /*#__PURE__*/React__namespace.createElement("svg", _extends$4({
+    xmlns: "http://www.w3.org/2000/svg",
+    fill: "none",
+    viewBox: "0 0 30 30"
+  }, props), /*#__PURE__*/React__namespace.createElement("g", {
+    clipPath: "url(#a)"
+  }, _path$2 || (_path$2 = /*#__PURE__*/React__namespace.createElement("path", {
+    fill: "#F6F6F6",
+    d: "M30 15c0-8.284-6.716-15-15-15S0 6.716 0 15s6.716 15 15 15 15-6.716 15-15"
+  })), /*#__PURE__*/React__namespace.createElement("g", {
+    filter: "url(#b)"
+  }, _path2$1 || (_path2$1 = /*#__PURE__*/React__namespace.createElement("path", {
+    stroke: "#fff",
+    strokeWidth: 0.8,
+    d: "M27 15c0-6.627-5.373-12-12-12S3 8.373 3 15s5.373 12 12 12 12-5.373 12-12Z"
+  })), /*#__PURE__*/React__namespace.createElement("mask", {
+    id: "c",
+    width: 24,
+    height: 24,
+    x: 3,
+    y: 3,
+    maskUnits: "userSpaceOnUse",
+    style: {
+      maskType: "alpha"
+    }
+  }, _path3 || (_path3 = /*#__PURE__*/React__namespace.createElement("path", {
+    fill: "#fff",
+    d: "M27 15c0-6.627-5.373-12-12-12S3 8.373 3 15s5.373 12 12 12 12-5.373 12-12"
+  }))), _g$2 || (_g$2 = /*#__PURE__*/React__namespace.createElement("g", {
+    mask: "url(#c)"
+  }, /*#__PURE__*/React__namespace.createElement("path", {
+    fill: "#fff",
+    d: "M35 3H-3v8.642h38z"
+  }), /*#__PURE__*/React__namespace.createElement("path", {
+    fill: "#22297E",
+    d: "M35 11.642H-3v8.642h38z"
+  }), /*#__PURE__*/React__namespace.createElement("path", {
+    fill: "#DD2726",
+    d: "M35 20.284H-3v8.642h38z"
+  }), /*#__PURE__*/React__namespace.createElement("path", {
+    fill: "#005BBB",
+    d: "M-3.75 0H37.5v15H-3.75z"
+  }), /*#__PURE__*/React__namespace.createElement("path", {
+    fill: "#FFD500",
+    d: "M-3.75 15.075h41.423V28.9H-3.75z"
+  })))), _g2 || (_g2 = /*#__PURE__*/React__namespace.createElement("g", {
+    stroke: "#F4F4F4",
+    strokeWidth: 0.8,
+    filter: "url(#d)"
+  }, /*#__PURE__*/React__namespace.createElement("path", {
+    d: "M27 15c0-6.627-5.373-12-12-12S3 8.373 3 15s5.373 12 12 12 12-5.373 12-12Z"
+  }), /*#__PURE__*/React__namespace.createElement("path", {
+    d: "M27 15c0-6.627-5.373-12-12-12S3 8.373 3 15s5.373 12 12 12 12-5.373 12-12Z"
+  })))), _defs$2 || (_defs$2 = /*#__PURE__*/React__namespace.createElement("defs", null, /*#__PURE__*/React__namespace.createElement("filter", {
+    id: "b",
+    width: 24.8,
+    height: 25.8,
+    x: 2.6,
+    y: 2.6,
+    colorInterpolationFilters: "sRGB",
+    filterUnits: "userSpaceOnUse"
+  }, /*#__PURE__*/React__namespace.createElement("feFlood", {
+    floodOpacity: 0,
+    result: "BackgroundImageFix"
+  }), /*#__PURE__*/React__namespace.createElement("feBlend", {
+    "in": "SourceGraphic",
+    in2: "BackgroundImageFix",
+    result: "shape"
+  }), /*#__PURE__*/React__namespace.createElement("feColorMatrix", {
+    "in": "SourceAlpha",
+    result: "hardAlpha",
+    values: "0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+  }), /*#__PURE__*/React__namespace.createElement("feOffset", {
+    dy: 1
+  }), /*#__PURE__*/React__namespace.createElement("feGaussianBlur", {
+    stdDeviation: 2
+  }), /*#__PURE__*/React__namespace.createElement("feComposite", {
+    in2: "hardAlpha",
+    k2: -1,
+    k3: 1,
+    operator: "arithmetic"
+  }), /*#__PURE__*/React__namespace.createElement("feColorMatrix", {
+    values: "0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.05 0"
+  }), /*#__PURE__*/React__namespace.createElement("feBlend", {
+    in2: "shape",
+    result: "effect1_innerShadow_17287_32482"
+  })), /*#__PURE__*/React__namespace.createElement("filter", {
+    id: "d",
+    width: 24.8,
+    height: 25.8,
+    x: 2.6,
+    y: 2.6,
+    colorInterpolationFilters: "sRGB",
+    filterUnits: "userSpaceOnUse"
+  }, /*#__PURE__*/React__namespace.createElement("feFlood", {
+    floodOpacity: 0,
+    result: "BackgroundImageFix"
+  }), /*#__PURE__*/React__namespace.createElement("feBlend", {
+    "in": "SourceGraphic",
+    in2: "BackgroundImageFix",
+    result: "shape"
+  }), /*#__PURE__*/React__namespace.createElement("feColorMatrix", {
+    "in": "SourceAlpha",
+    result: "hardAlpha",
+    values: "0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+  }), /*#__PURE__*/React__namespace.createElement("feOffset", {
+    dy: 1
+  }), /*#__PURE__*/React__namespace.createElement("feGaussianBlur", {
+    stdDeviation: 2
+  }), /*#__PURE__*/React__namespace.createElement("feComposite", {
+    in2: "hardAlpha",
+    k2: -1,
+    k3: 1,
+    operator: "arithmetic"
+  }), /*#__PURE__*/React__namespace.createElement("feColorMatrix", {
+    values: "0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.05 0"
+  }), /*#__PURE__*/React__namespace.createElement("feBlend", {
+    in2: "shape",
+    result: "effect1_innerShadow_17287_32482"
+  })), /*#__PURE__*/React__namespace.createElement("clipPath", {
+    id: "a"
+  }, /*#__PURE__*/React__namespace.createElement("path", {
+    fill: "#fff",
+    d: "M0 0h30v30H0z"
+  })))));
+};
+var Memo$4 = /*#__PURE__*/React.memo(SvgUkUaLight);
+
+var _g$1, _defs$1;
+function _extends$3() { return _extends$3 = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends$3.apply(null, arguments); }
+var SvgZhCnDark = function SvgZhCnDark(props) {
+  return /*#__PURE__*/React__namespace.createElement("svg", _extends$3({
+    xmlns: "http://www.w3.org/2000/svg",
+    fill: "none",
+    viewBox: "0 0 30 30"
+  }, props), _g$1 || (_g$1 = /*#__PURE__*/React__namespace.createElement("g", {
+    clipPath: "url(#a)"
+  }, /*#__PURE__*/React__namespace.createElement("path", {
+    fill: "#2B2B33",
+    d: "M30 15c0-8.284-6.716-15-15-15S0 6.716 0 15s6.716 15 15 15 15-6.716 15-15"
+  }), /*#__PURE__*/React__namespace.createElement("path", {
+    fill: "red",
+    d: "M27 15c0-6.627-5.373-12-12-12S3 8.373 3 15s5.373 12 12 12 12-5.373 12-12"
+  }), /*#__PURE__*/React__namespace.createElement("path", {
+    fill: "#FF0",
+    fillRule: "evenodd",
+    d: "m11.534 9.08 1.425 3.037 3.188.488-2.308 2.364.547 3.34-2.852-1.576-2.854 1.576.546-3.34-2.307-2.364 3.188-.488zm11.592 6.982.402.856.9.137-.65.666.153.941-.805-.444-.803.444.154-.941-.651-.666.9-.137zm-3.044-8.065.039.947.776.473-.857.366-.224.927-.569-.722-.914.1.505-.81-.342-.866.883.222zm4.151 3.83-.517.793.356.837-.907-.203-.72.627-.046-.92-.803-.448.884-.366.224-.903.59.69zm-3.117 9.243-.868.376-.166.895-.646-.67-.947.121.468-.788-.417-.82.935.184.688-.63.11.903z",
+    clipRule: "evenodd"
+  }), /*#__PURE__*/React__namespace.createElement("path", {
+    stroke: "#EAEAEA",
+    strokeWidth: 0.8,
+    d: "M27 15c0-6.627-5.373-12-12-12S3 8.373 3 15s5.373 12 12 12 12-5.373 12-12Z"
+  }))), _defs$1 || (_defs$1 = /*#__PURE__*/React__namespace.createElement("defs", null, /*#__PURE__*/React__namespace.createElement("clipPath", {
+    id: "a"
+  }, /*#__PURE__*/React__namespace.createElement("path", {
+    fill: "#fff",
+    d: "M0 0h30v30H0z"
+  })))));
+};
+var Memo$3 = /*#__PURE__*/React.memo(SvgZhCnDark);
+
+var _g, _defs;
+function _extends$2() { return _extends$2 = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends$2.apply(null, arguments); }
+var SvgZhCnLight = function SvgZhCnLight(props) {
+  return /*#__PURE__*/React__namespace.createElement("svg", _extends$2({
+    xmlns: "http://www.w3.org/2000/svg",
+    fill: "none",
+    viewBox: "0 0 30 30"
+  }, props), _g || (_g = /*#__PURE__*/React__namespace.createElement("g", {
+    clipPath: "url(#a)"
+  }, /*#__PURE__*/React__namespace.createElement("path", {
+    fill: "#F6F6F6",
+    d: "M30 15c0-8.284-6.716-15-15-15S0 6.716 0 15s6.716 15 15 15 15-6.716 15-15"
+  }), /*#__PURE__*/React__namespace.createElement("path", {
+    fill: "red",
+    d: "M27 15c0-6.627-5.373-12-12-12S3 8.373 3 15s5.373 12 12 12 12-5.373 12-12"
+  }), /*#__PURE__*/React__namespace.createElement("path", {
+    fill: "#FF0",
+    fillRule: "evenodd",
+    d: "m11.534 9.08 1.425 3.037 3.188.488-2.308 2.364.547 3.34-2.852-1.576-2.854 1.576.546-3.34-2.307-2.364 3.188-.488zm11.592 6.982.402.856.9.137-.65.666.153.941-.805-.444-.803.444.154-.941-.651-.666.9-.137zm-3.044-8.065.039.947.776.473-.857.366-.224.927-.569-.722-.914.1.505-.81-.342-.866.883.222zm4.151 3.83-.517.793.356.837-.907-.203-.72.627-.046-.92-.803-.448.884-.366.224-.903.59.69zm-3.117 9.243-.868.376-.166.895-.646-.67-.947.121.468-.788-.417-.82.935.184.688-.63.11.903z",
+    clipRule: "evenodd"
+  }), /*#__PURE__*/React__namespace.createElement("path", {
+    stroke: "#EAEAEA",
+    strokeWidth: 0.8,
+    d: "M27 15c0-6.627-5.373-12-12-12S3 8.373 3 15s5.373 12 12 12 12-5.373 12-12Z"
+  }))), _defs || (_defs = /*#__PURE__*/React__namespace.createElement("defs", null, /*#__PURE__*/React__namespace.createElement("clipPath", {
+    id: "a"
+  }, /*#__PURE__*/React__namespace.createElement("path", {
+    fill: "#fff",
+    d: "M0 0h30v30H0z"
+  })))));
+};
+var Memo$2 = /*#__PURE__*/React.memo(SvgZhCnLight);
 
 const props$1 = {
     width: 24,
@@ -34,43 +936,43 @@ const props$1 = {
     viewBox: '0 0 30 30',
 };
 const language_en_dark = {
-    component: enusdark,
+    component: Memo$b,
     props: props$1,
 };
 const language_en_light = {
-    component: enuslight,
+    component: Memo$a,
     props: props$1,
 };
 const language_kr_dark = {
-    component: krdark,
+    component: Memo$9,
     props: props$1,
 };
 const language_kr_light = {
-    component: krlight,
+    component: Memo$8,
     props: props$1,
 };
 const language_ru_dark = {
-    component: rudark,
+    component: Memo$7,
     props: props$1,
 };
 const language_ru_light = {
-    component: rulight,
+    component: Memo$6,
     props: props$1,
 };
 const language_uk_dark = {
-    component: ukdark,
+    component: Memo$5,
     props: props$1,
 };
 const language_uk_light = {
-    component: uklight,
+    component: Memo$4,
     props: props$1,
 };
 const language_zh_dark = {
-    component: zhdark,
+    component: Memo$3,
     props: props$1,
 };
 const language_zh_light = {
-    component: zhlight,
+    component: Memo$2,
     props: props$1,
 };
 const icons$2 = {
@@ -86,9 +988,50 @@ const icons$2 = {
     language_zh_light,
 };
 
-var dark = "data:image/svg+xml,%3Csvg%20width%3D%2230%22%20height%3D%2230%22%20viewBox%3D%220%200%2030%2030%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Crect%20width%3D%2230%22%20height%3D%2230%22%20rx%3D%2215%22%20fill%3D%22%232B2B33%22%2F%3E%3Cpath%20d%3D%22M15.0001%2020.0868C17.8096%2020.0868%2020.0872%2017.8093%2020.0872%2014.9998C20.0872%2012.1903%2017.8096%209.91272%2015.0001%209.91272C12.1906%209.91272%209.91309%2012.1903%209.91309%2014.9998C9.91309%2017.8093%2012.1906%2020.0868%2015.0001%2020.0868Z%22%20stroke%3D%22%23228BE5%22%20stroke-width%3D%222%22%20stroke-linejoin%3D%22round%22%2F%3E%3Cpath%20d%3D%22M15.0003%207.95655C15.5405%207.95655%2015.9785%207.51856%2015.9785%206.97828C15.9785%206.43799%2015.5405%206%2015.0003%206C14.46%206%2014.022%206.43799%2014.022%206.97828C14.022%207.51856%2014.46%207.95655%2015.0003%207.95655Z%22%20fill%3D%22%232997F6%22%2F%3E%3Cpath%20d%3D%22M20.6741%2010.3042C21.2144%2010.3042%2021.6524%209.86622%2021.6524%209.32593C21.6524%208.78565%2021.2144%208.34766%2020.6741%208.34766C20.1338%208.34766%2019.6958%208.78565%2019.6958%209.32593C19.6958%209.86622%2020.1338%2010.3042%2020.6741%2010.3042Z%22%20fill%3D%22%232997F6%22%2F%3E%3Cpath%20d%3D%22M23.0222%2015.978C23.5625%2015.978%2024.0005%2015.54%2024.0005%2014.9998C24.0005%2014.4595%2023.5625%2014.0215%2023.0222%2014.0215C22.4819%2014.0215%2022.0439%2014.4595%2022.0439%2014.9998C22.0439%2015.54%2022.4819%2015.978%2023.0222%2015.978Z%22%20fill%3D%22%232997F6%22%2F%3E%3Cpath%20d%3D%22M20.6741%2021.6521C21.2144%2021.6521%2021.6524%2021.2141%2021.6524%2020.6738C21.6524%2020.1336%2021.2144%2019.6956%2020.6741%2019.6956C20.1338%2019.6956%2019.6958%2020.1336%2019.6958%2020.6738C19.6958%2021.2141%2020.1338%2021.6521%2020.6741%2021.6521Z%22%20fill%3D%22%232997F6%22%2F%3E%3Cpath%20d%3D%22M15.0003%2024C15.5405%2024%2015.9785%2023.562%2015.9785%2023.0217C15.9785%2022.4815%2015.5405%2022.0435%2015.0003%2022.0435C14.46%2022.0435%2014.022%2022.4815%2014.022%2023.0217C14.022%2023.562%2014.46%2024%2015.0003%2024Z%22%20fill%3D%22%232997F6%22%2F%3E%3Cpath%20d%3D%22M9.32593%2021.6521C9.86622%2021.6521%2010.3042%2021.2141%2010.3042%2020.6738C10.3042%2020.1336%209.86622%2019.6956%209.32593%2019.6956C8.78565%2019.6956%208.34766%2020.1336%208.34766%2020.6738C8.34766%2021.2141%208.78565%2021.6521%209.32593%2021.6521Z%22%20fill%3D%22%232997F6%22%2F%3E%3Cpath%20d%3D%22M6.97828%2015.978C7.51856%2015.978%207.95655%2015.54%207.95655%2014.9998C7.95655%2014.4595%207.51856%2014.0215%206.97828%2014.0215C6.43799%2014.0215%206%2014.4595%206%2014.9998C6%2015.54%206.43799%2015.978%206.97828%2015.978Z%22%20fill%3D%22%232997F6%22%2F%3E%3Cpath%20d%3D%22M9.32593%2010.3042C9.86622%2010.3042%2010.3042%209.86622%2010.3042%209.32593C10.3042%208.78565%209.86622%208.34766%209.32593%208.34766C8.78565%208.34766%208.34766%208.78565%208.34766%209.32593C8.34766%209.86622%208.78565%2010.3042%209.32593%2010.3042Z%22%20fill%3D%22%232997F6%22%2F%3E%3C%2Fsvg%3E";
+var _rect$1, _path$1, _path2;
+function _extends$1() { return _extends$1 = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends$1.apply(null, arguments); }
+var SvgDark = function SvgDark(props) {
+  return /*#__PURE__*/React__namespace.createElement("svg", _extends$1({
+    xmlns: "http://www.w3.org/2000/svg",
+    fill: "none",
+    viewBox: "0 0 30 30"
+  }, props), _rect$1 || (_rect$1 = /*#__PURE__*/React__namespace.createElement("rect", {
+    width: 30,
+    height: 30,
+    fill: "#2B2B33",
+    rx: 15
+  })), _path$1 || (_path$1 = /*#__PURE__*/React__namespace.createElement("path", {
+    stroke: "#228BE5",
+    strokeLinejoin: "round",
+    strokeWidth: 2,
+    d: "M15 20.087a5.087 5.087 0 1 0 0-10.174 5.087 5.087 0 0 0 0 10.174Z"
+  })), _path2 || (_path2 = /*#__PURE__*/React__namespace.createElement("path", {
+    fill: "#2997F6",
+    d: "M15 7.957A.978.978 0 1 0 15 6a.978.978 0 0 0 0 1.957M20.674 10.304a.978.978 0 1 0 0-1.956.978.978 0 0 0 0 1.956M23.022 15.978a.978.978 0 1 0 0-1.957.978.978 0 0 0 0 1.957M20.674 21.652a.978.978 0 1 0 0-1.957.978.978 0 0 0 0 1.957M15 24a.978.978 0 1 0 0-1.957A.978.978 0 0 0 15 24M9.326 21.652a.978.978 0 1 0 0-1.956.978.978 0 0 0 0 1.956M6.978 15.978a.978.978 0 1 0 0-1.957.978.978 0 0 0 0 1.957M9.326 10.304a.978.978 0 1 0 0-1.956.978.978 0 0 0 0 1.956"
+  })));
+};
+var Memo$1 = /*#__PURE__*/React.memo(SvgDark);
 
-var light = "data:image/svg+xml,%3Csvg%20width%3D%2230%22%20height%3D%2230%22%20viewBox%3D%220%200%2030%2030%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Crect%20width%3D%2230%22%20height%3D%2230%22%20rx%3D%2215%22%20fill%3D%22%23F6F6F6%22%2F%3E%3Cpath%20d%3D%22M16.4184%208.1438C14.504%208.64293%2013.0909%2010.3837%2013.0909%2012.4546C13.0909%2014.9147%2015.0853%2016.9091%2017.5454%2016.9091C19.6163%2016.9091%2021.3571%2015.496%2021.8562%2013.5816C21.9505%2014.0396%2022%2014.514%2022%2015C22%2018.866%2018.866%2022%2015%2022C11.134%2022%208%2018.866%208%2015C8%2011.134%2011.134%208%2015%208C15.486%208%2015.9604%208.04952%2016.4184%208.1438Z%22%20stroke%3D%22%23006FFF%22%20stroke-width%3D%221.5%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E";
+var _rect, _path;
+function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
+var SvgLight = function SvgLight(props) {
+  return /*#__PURE__*/React__namespace.createElement("svg", _extends({
+    xmlns: "http://www.w3.org/2000/svg",
+    fill: "none",
+    viewBox: "0 0 30 30"
+  }, props), _rect || (_rect = /*#__PURE__*/React__namespace.createElement("rect", {
+    width: 30,
+    height: 30,
+    fill: "#F6F6F6",
+    rx: 15
+  })), _path || (_path = /*#__PURE__*/React__namespace.createElement("path", {
+    stroke: "#006FFF",
+    strokeLinejoin: "round",
+    strokeWidth: 1.5,
+    d: "M16.418 8.144a4.456 4.456 0 0 0 1.127 8.765 4.456 4.456 0 0 0 4.311-3.327Q22 14.27 22 15a7 7 0 1 1-5.582-6.856Z"
+  })));
+};
+var Memo = /*#__PURE__*/React.memo(SvgLight);
 
 const props = {
     width: 24,
@@ -96,11 +1039,11 @@ const props = {
     viewBox: '0 0 30 30',
 };
 const mode_dark = {
-    component: dark,
+    component: Memo$1,
     props,
 };
 const mode_light = {
-    component: light,
+    component: Memo,
     props,
 };
 const icons$1 = {
@@ -113,8 +1056,8 @@ const icons = {
     ...icons$1,
 };
 
-const Index = ({ name, className, component, sx, ...props }) => {
-    const _component = React.useMemo(() => {
+const Index$e = ({ name, className, component, sx, ...props }) => {
+    const c = React.useMemo(() => {
         if (component) {
             return { component: component };
         }
@@ -123,18 +1066,184 @@ const Index = ({ name, className, component, sx, ...props }) => {
         }
         return {};
     }, [name, component]);
-    const _props = React.useMemo(() => {
+    const p = React.useMemo(() => {
         const op = { ...props };
         if (name) {
             return { ...icons[name]?.props, ...op };
         }
         return op;
     }, [name, props]);
-    return (jsxRuntime.jsx(material.SvgIcon, { fill: "none", ..._component, className: `design-svg ${className}`, sx: {
+    return (jsxRuntime.jsx(material.SvgIcon, { fill: "none", ...c, className: `design-svg ${className}`, sx: {
             fill: 'transparent',
             ...sx,
-        }, ..._props }));
+        }, ...p }));
 };
+
+const Index$d = ({ containerprops, ...props }) => {
+    return (jsxRuntime.jsx(material.Box, { ...containerprops, className: `header-logo ${containerprops?.className}`, children: containerprops?.children ?? (jsxRuntime.jsx(Index$e, { ...props, className: `header-logo-svg ${props.className}` })) }));
+};
+
+const Container$4 = material.styled(material.Box)(() => ({
+    width: '100%',
+    display: 'flex',
+    alignContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center',
+    boxSizing: 'border-box',
+}));
+const Content = material.styled(material.Box)(() => ({
+    width: '100%',
+    display: 'flex',
+    alignContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center',
+    boxSizing: 'border-box',
+}));
+const Index$c = ({ children, islogo, logo, className, ...props }) => {
+    return (jsxRuntime.jsx(Container$4, { className: "header-root", children: jsxRuntime.jsxs(Content, { className: `header-content ${className}`, ...props, children: [islogo && jsxRuntime.jsx(Index$d, { ...logo }), children ?? null] }) }));
+};
+
+material.styled(material.Box)(() => ({
+    position: 'absolute',
+    zIndex: 9999,
+    top: '100%',
+}));
+const Index$b = ({ className, children, slotProps, ...props }) => (jsxRuntime.jsx(material.Popover, { disablePortal: true, slotProps: {
+        ...slotProps,
+        paper: {
+            className: `header-item-modal ${className}`,
+            ...slotProps?.paper,
+        },
+    }, ...props, children: children ?? null }));
+
+const Container$3 = material.styled(material.Box)(() => ({
+    display: 'flex',
+    alignContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center',
+    boxSizing: 'border-box',
+    position: 'relative',
+}));
+const Index$a = ({ className, children, ...props }) => (jsxRuntime.jsx(Container$3, { className: `nvigation header-nvigation-root ${className}`, ...props, children: children ?? null }));
+
+const Index$9 = ({ children, className }) => {
+    return jsxRuntime.jsx("ul", { className: `header-ul header-menu-ul ${className}`, children: children ?? null });
+};
+
+var CloseIcon = utils.createSvgIcon(/*#__PURE__*/jsxRuntime.jsx("path", {
+  d: "M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+}), 'Close');
+
+var DehazeIcon = utils.createSvgIcon(/*#__PURE__*/jsxRuntime.jsx("path", {
+  d: "M2 15.5v2h20v-2zm0-5v2h20v-2zm0-5v2h20v-2z"
+}), 'Dehaze');
+
+const Index$8 = ({ children, icon, className, open, ...props }) => {
+    return (jsxRuntime.jsxs(material.Box, { className: `header-menu-button-root ${className}`, children: [jsxRuntime.jsx(material.IconButton, { sx: { cursor: 'pointer' }, ...props, children: icon ? (icon) : open ? (jsxRuntime.jsx(CloseIcon, { className: "menu-switch menu-close" })) : (jsxRuntime.jsx(DehazeIcon, { className: "menu-switch menu-open" })) }), children ?? null] }));
+};
+
+const Container$2 = material.styled(material.Box)(() => ({
+    position: 'absolute',
+    zIndex: 9999,
+    top: '100%',
+}));
+const Index$7 = ({ className, children, ...props }) => (jsxRuntime.jsx(Container$2, { className: `header-modal header-menu-modal ${className}`, ...props, children: children ?? null }));
+
+const Index$6 = ({ ...props }) => {
+    return jsxRuntime.jsx(material.Typography, { fontSize: 16, ...props });
+};
+
+const Index$5 = ({ data, current, isprefix, issuffix, className, mode = 'light', suffix, children, onClick, }) => {
+    return (jsxRuntime.jsxs("li", { onClick: onClick, className: `header-li header-menu-li ${className} ${current?.id === data.id ? 'active' : 'idel'}`, children: [isprefix && data.isicon && data?.icones && (jsxRuntime.jsx(material.Box, { className: "li-prefix-root", children: data.icones[mode] })), children ?? (jsxRuntime.jsx(Index$6, { component: 'span', className: "li-text ", children: data.text })), issuffix && suffix && jsxRuntime.jsx(material.Box, { className: "li-suffix-root", children: suffix })] }));
+};
+
+const Container$1 = material.styled(material.Box)(() => ({
+    display: 'flex',
+    alignContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center',
+    boxSizing: 'border-box',
+    position: 'relative',
+    '& .header-tools-modal': {
+        position: 'absolute',
+        zIndex: 9999,
+        top: '100%',
+    },
+    '& .tools-ul-li': {
+        width: '100%',
+        display: 'flex',
+        alignContent: 'center',
+        alignItems: 'center',
+        alignSelf: 'center',
+        boxSizing: 'border-box',
+        position: 'relative',
+        cursor: 'pointer',
+        padding: '0 10px',
+    },
+}));
+const Index$4 = ({ className, children, ...props }) => (jsxRuntime.jsx(Container$1, { className: `header-tools-item ${className}`, ...props, children: children ?? null }));
+
+const Index$3 = ({ data, current, mode = 'light', onClick }) => {
+    const handleClick = (e) => {
+        const target = e.target;
+        const li = target.closest('li');
+        if (!li)
+            return;
+        const value = li.getAttribute('data-value');
+        if (!value)
+            return;
+        const res = data.find(item => item.value === value);
+        if (res && onClick) {
+            onClick(res);
+        }
+    };
+    return (jsxRuntime.jsx("ul", { className: "header-ul tools-ul language-ul-root", onClick: handleClick, children: data.map(item => {
+            return (jsxRuntime.jsxs("li", { className: `header-li tools-li language-li-root ${current?.id === item?.id ? 'active' : 'init'}`, "data-value": item.value, children: [item?.islogo && (jsxRuntime.jsx(jsxRuntime.Fragment, { children: item?.icon ? ((item?.[mode] ?? null)) : item?.[mode] ? (jsxRuntime.jsx(Index$e, { name: item?.[mode], className: "li-logo-left" })) : null })), jsxRuntime.jsx(Index$6, { className: "li-text", children: item.text })] }, item.id));
+        }) }));
+};
+
+const Index$2 = ({ data, current, order = 4, children, mode = 'light', buttonprops, modalprops, onChange, }) => {
+    const [open, setOpen] = React.useState(false);
+    const ref = React.useRef(null);
+    const handleshow = () => {
+        setOpen(true);
+    };
+    const handleclose = () => {
+        setOpen(false);
+    };
+    const logo = React.useMemo(() => {
+        if (current?.icon?.[mode]) {
+            return current.icon[mode];
+        }
+        return null;
+    }, [current, mode]);
+    return (jsxRuntime.jsxs(Index$4, { className: "header-tool-item  header-tool-language language-root", order: order, children: [jsxRuntime.jsx(material.IconButton, { onClick: handleshow, ref: ref, ...buttonprops, className: `tool-btn language-btn ${buttonprops?.className}`, children: current?.islogo && (jsxRuntime.jsx(jsxRuntime.Fragment, { children: current.icon ? (logo) : current?.[mode] ? (jsxRuntime.jsx(Index$e, { name: current?.[mode], className: "tool-logo" })) : null })) }), children ?? (jsxRuntime.jsx(Index$b, { open: open, keepMounted: true, anchorEl: ref.current, onClose: handleclose, ...modalprops, children: jsxRuntime.jsx(Index$3, { data: data, current: current, mode: mode, onClick: onChange }) }))] }));
+};
+const MLanguage = Index$2;
+MLanguage.Nav = Index$3;
+
+const Index$1 = ({ mode = 'light', order, svgprops, className, sx, ...props }) => {
+    return (jsxRuntime.jsx(material.IconButton, { ...props, className: `header-tool-item  header-tool-mode mode-root ${className}`, sx: {
+            order: order,
+            ...sx,
+        }, children: jsxRuntime.jsx(Index$e, { name: mode === 'dark' ? 'mode_dark' : 'mode_light', mode: mode, ...svgprops }) }));
+};
+
+const Container = material.styled(material.Box)(() => ({
+    display: 'flex',
+    alignContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center',
+    boxSizing: 'border-box',
+    position: 'relative',
+}));
+const Index = ({ className, children, ...props }) => (jsxRuntime.jsx(Container, { className: `tool tool-root ${className}`, ...props, children: children ?? null }));
+
+const formatday = () => { };
+
+const ispassword = () => { };
+
+const formatmoney = () => { };
 
 var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
@@ -369,14 +1478,44 @@ const useMode = () => {
     };
 };
 
-exports.SvgIcon = Index;
+function useImmer(initialValue) {
+    const [value, updateValue] = React.useState(() => immer.freeze(typeof initialValue === 'function' ? initialValue() : initialValue, true));
+    return [
+        value,
+        React.useCallback((updater) => {
+            if (typeof updater === 'function') {
+                updateValue(immer.produce(updater));
+            }
+            else {
+                updateValue(immer.freeze(updater));
+            }
+        }, []),
+    ];
+}
+
+exports.Header = Index$c;
+exports.HeaderPopover = Index$b;
+exports.MLanguage = MLanguage;
+exports.MMode = Index$1;
+exports.MenuButton = Index$8;
+exports.MenuLi = Index$5;
+exports.MenuModal = Index$7;
+exports.MenuUl = Index$9;
+exports.Navigation = Index$a;
+exports.SvgIcon = Index$e;
+exports.Tool = Index;
+exports.Typography = Index$6;
 exports.clearStorage = clearStorage;
+exports.formatday = formatday;
+exports.formatmoney = formatmoney;
 exports.getItem = getItem;
 exports.getStorage = getStorage;
+exports.ispassword = ispassword;
 exports.removeStorage = removeStorage;
 exports.setItem = setItem;
 exports.setStorage = setStorage;
 exports.useBreakpoints = useBreakpoints;
+exports.useImmer = useImmer;
 exports.useLanguage = useLanguage;
 exports.useMode = useMode;
 //# sourceMappingURL=index.js.map

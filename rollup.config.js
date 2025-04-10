@@ -7,7 +7,7 @@ import peerDepsExternal from 'rollup-plugin-peer-deps-external';
 import progressPlugin from './scripts/rollup-progress.js';
 import svgr from '@svgr/rollup';
 
-const packageJson = require('./package.json');
+const packageJson = require('./src/package.json');
 
 export default [
   {

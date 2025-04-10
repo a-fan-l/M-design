@@ -6,7 +6,7 @@ export const enus: LanguageData = {
   text: 'global.language.en-US',
   light: 'language_en_light',
   dark: 'language_en_dark',
-  islogo: true,
+  isLogo: true,
 };
 
 export const koKR: LanguageData = {
@@ -15,7 +15,7 @@ export const koKR: LanguageData = {
   text: 'global.language.ko-KR',
   light: 'language_kr_light',
   dark: 'language_kr_dark',
-  islogo: true,
+  isLogo: true,
 };
 
 export const ruRU: LanguageData = {
@@ -24,7 +24,7 @@ export const ruRU: LanguageData = {
   text: 'global.language.ru-RU',
   light: 'language_ru_light',
   dark: 'language_ru_dark',
-  islogo: true,
+  isLogo: true,
 };
 
 export const ukUA: LanguageData = {
@@ -33,7 +33,7 @@ export const ukUA: LanguageData = {
   text: 'global.language.uk-UA',
   light: 'language_uk_light',
   dark: 'language_uk_dark',
-  islogo: true,
+  isLogo: true,
 };
 
 export const languages = [enus, koKR, ruRU, ukUA];

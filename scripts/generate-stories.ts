@@ -17,19 +17,23 @@ function findComponents(
   components: ComponentInfo[] = [],
   baseDir: string = COMPONENTS_DIR
 ): ComponentInfo[] {
-  const files = fs.readdirSync(dir);
+  try {
+    const files = fs.readdirSync(dir);
 
-  for (const file of files) {
-    const filePath = path.join(dir, file);
-    const stat = fs.statSync(filePath);
+    for (const file of files) {
+      const filePath = path.join(dir, file);
+      const stat = fs.statSync(filePath);
 
-    if (stat.isDirectory()) {
-      findComponents(filePath, components, baseDir);
-    } else if (file.match(/\.(tsx|jsx)$/) && !file.includes('.stories.')) {
-      const name = path.parse(file).name;
-      const relativePath = path.relative(baseDir, dir);
-      components.push({ name, relativePath });
+      if (stat.isDirectory()) {
+        findComponents(filePath, components, baseDir);
+      } else if (file.match(/\.(tsx|jsx)$/) && !file.includes('.stories.')) {
+        const name = path.parse(file).name;
+        const relativePath = path.relative(baseDir, dir);
+        components.push({ name, relativePath });
+      }
     }
+  } catch (error) {
+    console.error(`Error reading directory ${dir}:`, error);
   }
 
   return components;
@@ -81,44 +85,54 @@ function ensureDirectoryExists(dir: string) {
 }
 
 function generateStories() {
-  const components = findComponents(targetDir);
-  const totalComponents = components.length;
-  let processedComponents = 0;
+  try {
+    const components = findComponents(targetDir);
+    const totalComponents = components.length;
+    let processedComponents = 0;
 
-  console.log(
-    `\n找到 ${totalComponents} 个组件需要生成 Stories\n目标目录: ${path.relative(COMPONENTS_DIR, targetDir)}\n`
-  );
+    console.log(
+      `\n找到 ${totalComponents} 个组件需要生成 Stories\n目标目录: ${path.relative(COMPONENTS_DIR, targetDir)}\n`
+    );
 
-  if (totalComponents === 0) {
-    console.log('未找到需要生成 Stories 的组件');
-    return;
-  }
-
-  for (const component of components) {
-    processedComponents++;
-    const progress = Math.floor((processedComponents / totalComponents) * 100);
-    const progressBar =
-      '='.repeat(Math.floor(progress / 2)) + ' '.repeat(50 - Math.floor(progress / 2));
-    process.stdout.write(`\r[${progressBar}] ${progress}% | 正在处理: ${component.name}`);
-    // Create stories directory structure matching the component structure
-    const componentStoryDir = path.join(STORIES_DIR, component.relativePath);
-    ensureDirectoryExists(componentStoryDir);
-
-    // Generate story file
-    const storyPath = path.join(componentStoryDir, 'index.stories.tsx');
-    if (!fs.existsSync(storyPath)) {
-      const storyContent = generateStoryTemplate(component.name, component.relativePath);
-      fs.writeFileSync(storyPath, storyContent, 'utf8');
-      console.log(`Generated story for ${component.name} at ${storyPath}`);
+    if (totalComponents === 0) {
+      console.log('未找到需要生成 Stories 的组件');
+      return;
     }
 
-    // Generate CSS file
-    const cssPath = path.join(componentStoryDir, 'index.css');
-    if (!fs.existsSync(cssPath)) {
-      const cssContent = generateCssTemplate(component.name);
-      fs.writeFileSync(cssPath, cssContent, 'utf8');
-      console.log(`Generated CSS for ${component.name} at ${cssPath}`);
+    for (const component of components) {
+      processedComponents++;
+      const progress = Math.floor((processedComponents / totalComponents) * 100);
+      const progressBar =
+        '='.repeat(Math.floor(progress / 2)) + ' '.repeat(50 - Math.floor(progress / 2));
+      process.stdout.write(`\r[${progressBar}] ${progress}% | 正在处理: ${component.name}`);
+      
+      try {
+        // Create stories directory structure matching the component structure
+        const componentStoryDir = path.join(STORIES_DIR, component.relativePath);
+        ensureDirectoryExists(componentStoryDir);
+
+        // Generate story file
+        const storyPath = path.join(componentStoryDir, 'index.stories.tsx');
+        if (!fs.existsSync(storyPath)) {
+          const storyContent = generateStoryTemplate(component.name, component.relativePath);
+          fs.writeFileSync(storyPath, storyContent, 'utf8');
+          console.log(`\nGenerated story for ${component.name} at ${storyPath}`);
+        }
+
+        // Generate CSS file
+        const cssPath = path.join(componentStoryDir, 'index.css');
+        if (!fs.existsSync(cssPath)) {
+          const cssContent = generateCssTemplate(component.name);
+          fs.writeFileSync(cssPath, cssContent, 'utf8');
+          console.log(`Generated CSS for ${component.name} at ${cssPath}`);
+        }
+      } catch (error) {
+        console.error(`\nError processing component ${component.name}:`, error);
+      }
     }
+  } catch (error) {
+    console.error('Error in generateStories:', error);
+    process.exit(1);
   }
 }
 

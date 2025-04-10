@@ -20,11 +20,11 @@
     "pnpm": ">=8.0.0"
   },
   "peerDependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "@mui/material": "^6.4.6",
     "@emotion/react": "^11.11.1",
-    "@emotion/styled": "^11.11.0"
+    "@emotion/styled": "^11.11.0",
+    "@mui/material": "^6.4.6",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "keywords": [
     "react",
@@ -35,8 +35,7 @@
   "scripts": {
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "generate-stories": "NODE_OPTIONS='--loader ts-node/esm' ts-node scripts/generate-stories.ts",
-    "build": "rollup -c config/rollup.config.prod.cjs",
+    "generate-stories": "NODE_OPTIONS='--loader ts-node/esm --experimental-specifier-resolution=node' ts-node -r tsconfig-paths/register scripts/generate-stories.ts",
     "build:dev": "rollup -c config/rollup.config.dev.cjs",
     "build:prod": "rollup -c config/rollup.config.prod.cjs",
     "clean": "rm -rf dist",

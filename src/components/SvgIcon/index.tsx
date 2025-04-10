@@ -1,6 +1,5 @@
 import React, { useMemo } from 'react';
 import { SvgIcon, SvgIconProps } from '@mui/material';
-
 import icons, { IconNameType } from './icons';
 
 export interface IIndexProps extends SvgIconProps {
@@ -8,7 +7,7 @@ export interface IIndexProps extends SvgIconProps {
 }
 
 const Index: React.FC<IIndexProps> = ({ name, className, component, sx, ...props }) => {
-  const _component = useMemo(() => {
+  const c = useMemo(() => {
     if (component) {
       return { component: component as React.ElementType };
     }
@@ -18,7 +17,7 @@ const Index: React.FC<IIndexProps> = ({ name, className, component, sx, ...props
     return {};
   }, [name, component]);
 
-  const _props = useMemo(() => {
+  const p = useMemo(() => {
     const op = { ...props };
     if (name) {
       return { ...icons[name]?.props, ...op };
@@ -29,13 +28,13 @@ const Index: React.FC<IIndexProps> = ({ name, className, component, sx, ...props
   return (
     <SvgIcon
       fill="none"
-      {..._component}
+      {...c}
       className={`design-svg ${className}`}
       sx={{
         fill: 'transparent',
         ...sx,
       }}
-      {..._props}
+      {...p}
     />
   );
 };

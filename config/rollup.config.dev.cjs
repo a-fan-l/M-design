@@ -1,23 +1,15 @@
-const { createBaseConfig, basePlugins } = require('../rollup.config.base.cjs');
-const packageJson = require('../package.json');
+const { createBaseConfig } = require('../rollup.config.base.cjs');
 
-// 开发环境特定的插件
-const devPlugins = [
-  ...basePlugins,
-  // 可以添加开发环境特定的插件
-];
-
-// 开发环境配置
 const devConfig = [
   // Main bundle
   createBaseConfig('src/index.ts', [
     {
-      file: packageJson.main,
+      file: 'dist/cjs/index.js',
       format: 'cjs',
       sourcemap: true,
     },
     {
-      file: packageJson.module,
+      file: 'dist/esm/index.js',
       format: 'esm',
       sourcemap: true,
     },

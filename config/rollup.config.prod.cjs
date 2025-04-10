@@ -1,119 +1,79 @@
-const { createBaseConfig, basePlugins } = require('../rollup.config.base.cjs');
 const { terser } = require('rollup-plugin-terser');
-const dts = require('rollup-plugin-dts');
-const packageJson = require('../package.json');
+const { createBaseConfig, basePlugins } = require('../rollup.config.base.cjs');
 
-// 生产环境特定的插件
-const prodPlugins = [
-  ...basePlugins,
-  terser(), // 代码压缩
-];
+const prodPlugins = [...basePlugins, terser()];
 
-// 生产环境配置
+const createProdConfig = (input, output) => ({
+  ...createBaseConfig(input, output),
+  plugins: prodPlugins,
+});
+
 const prodConfig = [
   // Main bundle
-  {
-    ...createBaseConfig('src/index.ts', [
-      {
-        file: packageJson.main,
-        format: 'cjs',
-        sourcemap: true,
-      },
-      {
-        file: packageJson.module,
-        format: 'esm',
-        sourcemap: true,
-      },
-    ]),
-    plugins: prodPlugins,
-  },
-  // Utils bundle
-  {
-    ...createBaseConfig('src/utils/index.ts', [
-      {
-        file: 'dist/cjs/utils/index.js',
-        format: 'cjs',
-        sourcemap: true,
-      },
-      {
-        file: 'dist/esm/utils/index.js',
-        format: 'esm',
-        sourcemap: true,
-      },
-    ]),
-    plugins: prodPlugins,
-  },
-  // Hooks bundle
-  {
-    ...createBaseConfig('src/hooks/index.ts', [
-      {
-        file: 'dist/cjs/hooks/index.js',
-        format: 'cjs',
-        sourcemap: true,
-      },
-      {
-        file: 'dist/esm/hooks/index.js',
-        format: 'esm',
-        sourcemap: true,
-      },
-    ]),
-    plugins: prodPlugins,
-  },
-  // Store bundle
-  {
-    ...createBaseConfig('src/store/index.ts', [
-      {
-        file: 'dist/cjs/store/index.js',
-        format: 'cjs',
-        sourcemap: true,
-      },
-      {
-        file: 'dist/esm/store/index.js',
-        format: 'esm',
-        sourcemap: true,
-      },
-    ]),
-    plugins: prodPlugins,
-  },
-  // Constants bundle
-  {
-    ...createBaseConfig('src/constants/index.ts', [
-      {
-        file: 'dist/cjs/constants/index.js',
-        format: 'cjs',
-        sourcemap: true,
-      },
-      {
-        file: 'dist/esm/constants/index.js',
-        format: 'esm',
-        sourcemap: true,
-      },
-    ]),
-    plugins: prodPlugins,
-  },
-  // Type definitions
-  {
-    input: 'src/index.ts',
-    output: {
-      dir: 'dist/types',
-      format: 'esm',
-      preserveModules: true,
-      preserveModulesRoot: 'src',
+  createProdConfig('src/index.ts', [
+    {
+      file: 'dist/cjs/index.min.js',
+      format: 'cjs',
+      sourcemap: true,
     },
-    plugins: [dts()],
-    external: [
-      /\.css$/,
-      'react',
-      'react-dom',
-      '@mui/material',
-      '@emotion/react',
-      '@emotion/styled',
-      /^@components\//,
-      /^@utils\//,
-      /^@hooks\//,
-      /^@store\//,
-    ],
-  },
+    {
+      file: 'dist/esm/index.min.js',
+      format: 'esm',
+      sourcemap: true,
+    },
+  ]),
+  // Utils bundle
+  createProdConfig('src/utils/index.ts', [
+    {
+      file: 'dist/cjs/utils/index.min.js',
+      format: 'cjs',
+      sourcemap: true,
+    },
+    {
+      file: 'dist/esm/utils/index.min.js',
+      format: 'esm',
+      sourcemap: true,
+    },
+  ]),
+  // Hooks bundle
+  createProdConfig('src/hooks/index.ts', [
+    {
+      file: 'dist/cjs/hooks/index.min.js',
+      format: 'cjs',
+      sourcemap: true,
+    },
+    {
+      file: 'dist/esm/hooks/index.min.js',
+      format: 'esm',
+      sourcemap: true,
+    },
+  ]),
+  // Store bundle
+  createProdConfig('src/store/index.ts', [
+    {
+      file: 'dist/cjs/store/index.min.js',
+      format: 'cjs',
+      sourcemap: true,
+    },
+    {
+      file: 'dist/esm/store/index.min.js',
+      format: 'esm',
+      sourcemap: true,
+    },
+  ]),
+  // Constants bundle
+  createProdConfig('src/constants/index.ts', [
+    {
+      file: 'dist/cjs/constants/index.min.js',
+      format: 'cjs',
+      sourcemap: true,
+    },
+    {
+      file: 'dist/esm/constants/index.min.js',
+      format: 'esm',
+      sourcemap: true,
+    },
+  ]),
 ];
 
 module.exports = prodConfig;

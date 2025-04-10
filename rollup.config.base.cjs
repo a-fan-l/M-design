@@ -1,15 +1,20 @@
 const resolve = require('@rollup/plugin-node-resolve');
 const commonjs = require('@rollup/plugin-commonjs');
 const typescript = require('@rollup/plugin-typescript');
-const dts = require('rollup-plugin-dts');
+const dts = require('rollup-plugin-dts').default;
 const peerDepsExternal = require('rollup-plugin-peer-deps-external');
 const svgr = require('@svgr/rollup');
-const url = require('@rollup/plugin-url');
 
 const packageJson = require('./package.json');
-
-// 定义共用的别名配置
 const path = require('path');
+
+const onwarn = (warning, warn) => {
+  if (warning.code === 'MODULE_LEVEL_DIRECTIVE' && warning.message.includes('use client')) {
+    return;
+  }
+  warn(warning);
+};
+
 const aliasOptions = {
   '@store': path.resolve(__dirname, 'src/store'),
   '@constants': path.resolve(__dirname, 'src/constants'),
@@ -18,25 +23,6 @@ const aliasOptions = {
   '@hooks': path.resolve(__dirname, 'src/hooks'),
 };
 
-// 共用的外部依赖
-const external = [
-  ...Object.keys(packageJson.peerDependencies || {}),
-  ...Object.keys(packageJson.dependencies || {}),
-  'react/jsx-runtime',
-  'zustand',
-  'immer',
-  'dayjs',
-  'i18next',
-  'react-i18next',
-  'js-cookie',
-  '@reduxjs/toolkit',
-  'react-redux',
-  'redux-persist',
-  'redux-persist-cookie-storage',
-  'lucide-react',
-];
-
-// 共用的插件配置
 const basePlugins = [
   peerDepsExternal(),
   resolve({
@@ -66,29 +52,36 @@ const basePlugins = [
       ],
     },
   }),
-  url(),
 ];
 
-// 共用的警告处理
-const onwarn = (warning, warn) => {
-  if (warning.code === 'MODULE_LEVEL_DIRECTIVE' && warning.message.includes('use client')) {
-    return;
-  }
-  warn(warning);
-};
+const baseExternal = [
+  ...Object.keys(packageJson.peerDependencies || {}),
+  ...Object.keys(packageJson.dependencies || {}),
+  'react/jsx-runtime',
+  'zustand',
+  'immer',
+  'dayjs',
+  'i18next',
+  'react-i18next',
+  'js-cookie',
+  '@reduxjs/toolkit',
+  'react-redux',
+  'redux-persist',
+  'redux-persist-cookie-storage',
+  'lucide-react',
+];
 
-// 创建基础配置的函数
 const createBaseConfig = (input, output) => ({
   input,
   output,
   plugins: basePlugins,
-  external,
   onwarn,
+  external: baseExternal,
 });
 
 module.exports = {
   createBaseConfig,
   basePlugins,
-  external,
-  onwarn,
-}; 
+  baseExternal,
+  aliasOptions,
+};
